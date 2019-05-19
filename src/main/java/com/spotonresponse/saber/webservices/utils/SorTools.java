@@ -1,10 +1,12 @@
 package com.spotonresponse.saber.webservices.utils;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class SorTools {
 
-    private static final Logger logger = Logger.getLogger(SorTools.class.getName());
+    static Logger logger = LoggerFactory.getLogger(SorTools.class);
 
     public static String determineIcon(String status, String client) {
 
@@ -21,13 +23,22 @@ public class SorTools {
 
             // TODO: Enhance this bit to use a lookup table for customers
             //  and the associated icons
+            logger.info("Searching icons for string: " + client);
             if (client.toLowerCase().contains("walmart")) {
                 icon = "https://app.spotonresponse.com/MapMarkers/" + icondir + "WalmartIcon.png";
+            } else {
+                if (client.toLowerCase().contains("7-eleven")) {
+                    icon = "https://app.spotonresponse.com/MapMarkers/" + icondir + "7-Eleven.png";
+                } else {
+                    if (client.toLowerCase().contains("bp oil")) {
+                        icon = "https://app.spotonresponse.com/MapMarkers/" + icondir + "bp-logo.png";
+                    }
+                }
             }
 
 
         } catch (org.json.JSONException jex) {
-            logger.finer("Entity does not contain status or icon");
+            logger.warn("Entity does not contain status or icon");
         }
 
         return icon;

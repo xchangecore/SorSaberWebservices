@@ -3,12 +3,13 @@ package com.spotonresponse.saber.webservices.utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 public class CreateGeoJSON {
 
-    private static final Logger logger = Logger.getLogger(CreateGeoJSON.class.getName());
+
+    static org.slf4j.Logger logger = LoggerFactory.getLogger(CreateGeoJSON.class);
 
     public static JSONObject build(JSONArray jArray) {
 
@@ -26,7 +27,7 @@ public class CreateGeoJSON {
                 String pos = point.getString("pos");
                 String[] loc = pos.split(" ");
 
-                String icon = SorTools.determineIcon(itemJson.getString("status"), itemJson.getString("Data Source URL"));
+                String icon = SorTools.determineIcon(itemJson.getString("status"), itemJson.getString("Data Source URL") + " " + itemJson.getString("title"));
                 itemJson.put("icon", icon);
 
                 double latitude = Double.valueOf(loc[0]);
@@ -48,7 +49,7 @@ public class CreateGeoJSON {
                 featuresArray.put(feature);
 
             } catch (Exception ex) {
-                logger.fine("Unable to add item to GeoJSON");
+                logger.warn("Unable to add item to GeoJSON");
             }
 
         }

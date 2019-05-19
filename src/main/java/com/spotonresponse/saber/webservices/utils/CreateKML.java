@@ -1,12 +1,13 @@
 package com.spotonresponse.saber.webservices.utils;
 
 import org.json.JSONArray;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 public class CreateKML {
 
-    private static final Logger logger = Logger.getLogger(CreateGeoJSON.class.getName());
+
+    static org.slf4j.Logger logger = LoggerFactory.getLogger(CreateKML.class);
 
     public static void build(JSONArray jArray) {
 

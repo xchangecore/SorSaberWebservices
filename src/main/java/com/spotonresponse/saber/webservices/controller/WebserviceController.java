@@ -11,6 +11,7 @@ import org.json.XML;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,7 @@ public class WebserviceController {
     private String output = "No Data";
 
     @RequestMapping(value = "/saberdata")
+    @CrossOrigin
     public String query(@RequestParam(value = "nocache", defaultValue = "") String nocache,
                         @RequestParam(value = "outputFormat", defaultValue = "raw") String outputFormat,
                         @RequestParam(value = "filter", defaultValue = "") String filter,

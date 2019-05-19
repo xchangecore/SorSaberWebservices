@@ -8,22 +8,23 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.google.cloud.datastore.*;
-import com.spotonresponse.saber.webservices.controller.WebserviceController;
 import com.spotonresponse.saber.webservices.model.EntityRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.logging.Logger;
+
 
 @Configuration
 @EnableAsync
 @EnableDynamoDBRepositories(basePackageClasses = EntityRepository.class)
 public class DynamoDBConfig {
 
-    private static final Logger logger = Logger.getLogger(WebserviceController.class.getName());
+    static Logger logger = LoggerFactory.getLogger(DynamoDBConfig.class);
 
     @Value(value = "${google.cloud.aws-uuid}")
     private String DynamoDbUUID;
@@ -61,7 +62,7 @@ public class DynamoDBConfig {
             logger.info("**************Got aws_key: " + aws_access_key_id);
 
         } catch (Exception ex) {
-            logger.severe("Error: " + ex);
+            logger.error("Error: " + ex);
 
         }
         return new BasicAWSCredentials(aws_access_key_id, aws_secret_access_key );
