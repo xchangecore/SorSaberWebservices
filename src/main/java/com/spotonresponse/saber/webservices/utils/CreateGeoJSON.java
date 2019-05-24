@@ -2,8 +2,11 @@ package com.spotonresponse.saber.webservices.utils;
 
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
 
 
 public class CreateGeoJSON {
@@ -27,7 +30,36 @@ public class CreateGeoJSON {
                 String pos = point.getString("pos");
                 String[] loc = pos.split(" ");
 
-                String icon = SorTools.determineIcon(itemJson.getString("status"), itemJson.getString("Data Source URL") + " " + itemJson.getString("title"));
+
+                // If we we not given a status, assume "Open" for the icon color
+                String useStatus = "Open";
+                try {
+                    if (itemJson.getString("status") != null) {
+                        useStatus = itemJson.getString("status");
+                    }
+                } catch (JSONException jex) {
+                    logger.warn("No Status Provided");
+                }
+
+                String iconquery = "";
+                try {
+                    if (itemJson.getString("Data Source URL") != null) {
+                        iconquery += itemJson.getString("Data Source URL");
+                    }
+                } catch (JSONException jex) {
+                    logger.warn("DataSourceUrl was not found");
+                }
+
+                try {
+                    if (itemJson.getString("title") != null) {
+                        iconquery += itemJson.getString("title");
+                    }
+                } catch (JSONException jex) {
+                    logger.warn("Title was not found");
+                }
+
+
+                String icon = SorTools.determineIcon(useStatus, iconquery);
                 itemJson.put("icon", icon);
 
                 double latitude = Double.valueOf(loc[0]);
@@ -44,12 +76,45 @@ public class CreateGeoJSON {
                 JSONObject feature = new JSONObject();
                 feature.put("type", "Feature");
                 feature.put("geometry", geometry);
-                feature.put("properties", itemJson);
+                //feature.put("properties", itemJson);
 
+
+                Iterator<String> keys = itemJson.keys();
+
+                JSONObject props = new JSONObject();
+                while (keys.hasNext()) {
+
+                    String key = keys.next();
+
+                /*    if (key.equalsIgnoreCase("description")) {
+                        String desc = itemJson.get(key).toString();
+                        // Get rid of SpotOnResponse Descriptor encoding
+                        desc = desc.replace("<![CDATA[<spotonresponse><br/>", "")
+                                .replace("</spotonresponse>]]", "");
+
+                        // Split the descriptor in peices
+                        String[] entries = desc.split("<br/>");
+                        // Split the entries into Key/Value
+                        for (String entry : entries) {
+                            String[] kv = entry.split(": </b>");
+                            if (kv.length == 1) {
+                                props.put(kv[0].replace("<b>", ""), "");
+                            } else {
+                                props.put(kv[0].replace("<b>", ""), kv[1]);
+                            }
+                        }
+
+                    } else {
+                    */
+                    props.put(key, itemJson.get(key));
+                    //}
+                }
+                feature.put("properties", props);
                 featuresArray.put(feature);
 
             } catch (Exception ex) {
-                logger.warn("Unable to add item to GeoJSON");
+                logger.warn("Unable to add item to GeoJSON: " + ex);
+                logger.error(ex.getMessage());
             }
 
         }

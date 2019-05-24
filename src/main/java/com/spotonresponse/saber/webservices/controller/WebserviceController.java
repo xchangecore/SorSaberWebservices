@@ -38,8 +38,9 @@ public class WebserviceController {
     private static final Logger logger = Logger.getLogger(WebserviceController.class.getName());
     private String output = "No Data";
 
-    @RequestMapping(value = "/saberdata")
+    @RequestMapping(value = "/saberdata", produces = {"application/json"})
     @CrossOrigin
+
     public String query(@RequestParam(value = "nocache", defaultValue = "") String nocache,
                         @RequestParam(value = "outputFormat", defaultValue = "raw") String outputFormat,
                         @RequestParam(value = "filter", defaultValue = "") String filter,
