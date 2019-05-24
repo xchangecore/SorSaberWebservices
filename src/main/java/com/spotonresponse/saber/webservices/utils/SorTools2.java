@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class SorTools {
+public class SorTools2 {
 
     static Logger logger = LoggerFactory.getLogger(SorTools.class);
 
     private static Map<String, String> iconmap = new HashMap<String, String>();
 
     public static String determineIcon(String status, String client) {
+
         // Add icons to the icon map
         iconmap.put("walmart", "WalmartIcon.png");
         iconmap.put("7-eleven", "7-Eleven.png");
