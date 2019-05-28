@@ -73,6 +73,9 @@ public class CreateGeoJSON {
                 geometry.put("type", "Point");
                 geometry.put("coordinates", coords);
 
+                // Suppress the "Content" field from the JSON and CSV adapters
+                itemJson.remove("content");
+
                 JSONObject feature = new JSONObject();
                 feature.put("type", "Feature");
                 feature.put("geometry", geometry);
