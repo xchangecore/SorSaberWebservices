@@ -2,6 +2,7 @@ package com.spotonresponse.saber.webservices.controller;
 
 
 import com.spotonresponse.saber.webservices.model.Entity;
+import com.spotonresponse.saber.webservices.model.EntityKey;
 import com.spotonresponse.saber.webservices.model.EntityRepository;
 import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
 import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
@@ -43,6 +44,8 @@ public class WebserviceController {
 
     public String query(@RequestParam(value = "nocache", defaultValue = "") String nocache,
                         @RequestParam(value = "outputFormat", defaultValue = "raw") String outputFormat,
+                        @RequestParam(value = "title", defaultValue = "") String title,
+                        @RequestParam(value = "md5hash", defaultValue = "") String md5hash,
                         @RequestParam(value = "filter", defaultValue = "") String filter,
                         @RequestParam(value = "topLeft", defaultValue = "") String topLeft,
                         @RequestParam(value = "bottomRight", defaultValue = "") String bottomRight) {
@@ -51,10 +54,22 @@ public class WebserviceController {
         Instant now = Instant.now();
         Instant scanStart = Instant.now();
 
-        // Get all results in the Database
-        resultArray = new JSONArray();
-        for (Entity e : repo.findAll()) {
-            resultArray.put(e.getEntityJson());
+        if ((md5hash.length() > 1) && (title.length() > 1)) {
+            resultArray = new JSONArray();
+            EntityKey ek = new EntityKey();
+            ek.setMd5hash(md5hash);
+            ek.setTitle(title);
+            Entity e = repo.findByKey(ek);
+            if (e != null) {
+                resultArray.put(e.getEntityJson());
+            }
+
+        } else {
+            // Get all results in the Database
+            resultArray = new JSONArray();
+            for (Entity e : repo.findAll()) {
+                resultArray.put(e.getEntityJson());
+            }
         }
 
         Instant scanEnd = Instant.now();
@@ -135,18 +150,31 @@ public class WebserviceController {
 
         // Determine what output is needed, and format the data as necessary
         if (error.isEmpty()) {
+            Instant jsonStart = null;
+            Instant jsonEnd = null;
+            JSONObject perf = null;
+            JSONObject jo = null;
             switch (outputFormat) {
-                case "geojson":
-                    Instant jsonStart = Instant.now();
-                    JSONObject jo = CreateGeoJSON.build(jsonBounded);
-                    Instant jsonEnd = Instant.now();
-                    JSONObject perf = new JSONObject();
+                case "sor":
+                    jsonStart = Instant.now();
+                    jo = CreateGeoJSON.build(jsonBounded, false);
+                    jsonEnd = Instant.now();
+                    perf = new JSONObject();
                     perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));
                     perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
                     jo.put("Statistics", perf);
                     output = jo.toString();
                     break;
-
+                case "geojson":
+                    jsonStart = Instant.now();
+                    jo = CreateGeoJSON.build(jsonBounded, true);
+                    jsonEnd = Instant.now();
+                    perf = new JSONObject();
+                    perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));
+                    perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
+                    jo.put("Statistics", perf);
+                    output = jo.toString();
+                    break;
                 case "xml":
                     output = XML.toString(jsonBounded);
                     break;

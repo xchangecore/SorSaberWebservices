@@ -27,7 +27,7 @@ public class SorTools {
         iconmap.put("sonic", "Sonic.png");
         iconmap.put("starbucks", "Starbucks.png");
         iconmap.put("taco bell", "Taco Bell.png");
-        iconmap.put("walls fargo", "Wells Fargo.png");
+        iconmap.put("wells fargo", "Wells Fargo.png");
         iconmap.put("dicks ", "DicksSportingGoods.png");
         iconmap.put("dick's ", "DicksSportingGoods.png");
         iconmap.put("dicks ", "DicksSportingGoods.png");
@@ -39,7 +39,7 @@ public class SorTools {
         iconmap.put("costco", "CostcoIcon.png");
         iconmap.put("target", "target.png");
         iconmap.put("walgreens", "walgreens.png");
-
+        iconmap.put("conoco", "conoco.png");
 
         String icon = "";
 

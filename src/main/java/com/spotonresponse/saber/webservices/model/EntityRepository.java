@@ -11,5 +11,8 @@ public interface EntityRepository extends CrudRepository<Entity, EntityKey> {
 
     List<Entity> findAll();
 
+    List<Entity> findAllByTitle(String title);
+
+    Entity findByKey(EntityKey key);
 }
 

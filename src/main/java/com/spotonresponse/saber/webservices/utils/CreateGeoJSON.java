@@ -14,7 +14,7 @@ public class CreateGeoJSON {
 
     static org.slf4j.Logger logger = LoggerFactory.getLogger(CreateGeoJSON.class);
 
-    public static JSONObject build(JSONArray jArray) {
+    public static JSONObject build(JSONArray jArray, boolean fulloutput) {
 
         JSONArray featuresArray = new JSONArray();
         int items = jArray.length();
@@ -79,39 +79,24 @@ public class CreateGeoJSON {
                 JSONObject feature = new JSONObject();
                 feature.put("type", "Feature");
                 feature.put("geometry", geometry);
-                //feature.put("properties", itemJson);
-
-
-                Iterator<String> keys = itemJson.keys();
 
                 JSONObject props = new JSONObject();
-                while (keys.hasNext()) {
 
-                    String key = keys.next();
-
-                /*    if (key.equalsIgnoreCase("description")) {
-                        String desc = itemJson.get(key).toString();
-                        // Get rid of SpotOnResponse Descriptor encoding
-                        desc = desc.replace("<![CDATA[<spotonresponse><br/>", "")
-                                .replace("</spotonresponse>]]", "");
-
-                        // Split the descriptor in peices
-                        String[] entries = desc.split("<br/>");
-                        // Split the entries into Key/Value
-                        for (String entry : entries) {
-                            String[] kv = entry.split(": </b>");
-                            if (kv.length == 1) {
-                                props.put(kv[0].replace("<b>", ""), "");
-                            } else {
-                                props.put(kv[0].replace("<b>", ""), kv[1]);
-                            }
-                        }
-
-                    } else {
-                    */
-                    props.put(key, itemJson.get(key));
-                    //}
+                // If fulloutput is set to true, give everything
+                // Otherwise only output the title property
+                if (fulloutput) {
+                    Iterator<String> keys = itemJson.keys();
+                    while (keys.hasNext()) {
+                        String key = keys.next();
+                        props.put(key, itemJson.get(key));
+                    }
+                } else {
+                    props.put("title", itemJson.get("title"));
+                    props.put("md5hash", itemJson.get("md5hash"));
+                    props.put("icon", itemJson.get("icon"));
+                    props.put("sorFetchData", "true");
                 }
+
                 feature.put("properties", props);
                 featuresArray.put(feature);
 
