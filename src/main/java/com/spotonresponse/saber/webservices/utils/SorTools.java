@@ -40,6 +40,7 @@ public class SorTools {
         iconmap.put("target", "target.png");
         iconmap.put("walgreens", "walgreens.png");
         iconmap.put("conoco", "conoco.png");
+        iconmap.put("wyndham", "wyndham.png");
 
         String icon = "";
 
@@ -48,8 +49,12 @@ public class SorTools {
         // Use GrayScale icons for closed status
         try {
             String icondir = "";
-            if (!status.toLowerCase().equals("open")) {
+            if (status.toLowerCase().equals("closed")) {
                 icondir = "GS/";
+            } else {
+                if (status.toLowerCase().equals("limited")) {
+                    icondir = "RED/";
+                }
             }
 
             String mapMarkerDirectory = "https://app.spotonresponse.com/MapMarkers/" + icondir;

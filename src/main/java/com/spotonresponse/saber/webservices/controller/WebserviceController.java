@@ -44,6 +44,7 @@ public class WebserviceController {
 
     public String query(@RequestParam(value = "nocache", defaultValue = "") String nocache,
                         @RequestParam(value = "outputFormat", defaultValue = "raw") String outputFormat,
+                        @RequestParam(value = "arcgis", defaultValue = "false") String arcgis,
                         @RequestParam(value = "title", defaultValue = "") String title,
                         @RequestParam(value = "md5hash", defaultValue = "") String md5hash,
                         @RequestParam(value = "filter", defaultValue = "") String filter,
@@ -81,12 +82,17 @@ public class WebserviceController {
         if (filter.length() > 2) {
             try {
 
-                logger.info("Filtering for SHELTON, filter Length: " + filter.length() + " Filter is: " + filter);
+                logger.info("Checking for STATUS filter, filter Length: " + filter.length() + " Filter is: " + filter);
                 for (int c = 0; c < resultArray.length(); c++) {
                     JSONObject jo = resultArray.getJSONObject(c);
                     JSONObject jo_item = jo.getJSONObject("item");
-                    if (jo_item.getString("status").equals(filter)) {
-                        jsonFiltered.put(jo);
+                    //logger.info("jo: " + jo.toString(2));
+                    try {
+                        if (jo_item.getString("status").equals(filter)) {
+                            jsonFiltered.put(jo);
+                        }
+                    } catch (org.json.JSONException jex) {
+                        logger.info("Entity does not contain status: " + jex.getMessage());
                     }
                 }
             } catch (org.json.JSONException jex) {
@@ -167,7 +173,12 @@ public class WebserviceController {
                     break;
                 case "geojson":
                     jsonStart = Instant.now();
-                    jo = CreateGeoJSON.build(jsonBounded, true);
+                    if (!arcgis.isEmpty()) {
+                        jo = CreateGeoJSON.build(jsonBounded, true, arcgis);
+                    } else {
+                        jo = CreateGeoJSON.build(jsonBounded, true);
+                    }
+
                     jsonEnd = Instant.now();
                     perf = new JSONObject();
                     perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));

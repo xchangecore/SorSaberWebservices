@@ -11,8 +11,20 @@ import java.util.Iterator;
 
 public class CreateGeoJSON {
 
+    private static boolean filterforArcGis = false;
 
     static org.slf4j.Logger logger = LoggerFactory.getLogger(CreateGeoJSON.class);
+
+
+    public static JSONObject build(JSONArray jArray, boolean fulloutput, String arcgis) {
+        if (arcgis.toLowerCase().equals("true")) {
+            filterforArcGis = true;
+        }
+        JSONObject jo = build(jArray, fulloutput);
+        return jo;
+    }
+
+
 
     public static JSONObject build(JSONArray jArray, boolean fulloutput) {
 
@@ -88,14 +100,22 @@ public class CreateGeoJSON {
                     Iterator<String> keys = itemJson.keys();
                     while (keys.hasNext()) {
                         String key = keys.next();
-                        props.put(key, itemJson.get(key));
+                        if (filterforArcGis == true) {
+                            if (!key.toLowerCase().equals("where")) {
+                                props.put(key, itemJson.get(key));
+                            }
+                        } else {
+                            props.put(key, itemJson.get(key));
+                        }
                     }
+
                 } else {
                     props.put("title", itemJson.get("title"));
                     props.put("md5hash", itemJson.get("md5hash"));
                     props.put("icon", itemJson.get("icon"));
                     props.put("sorFetchData", "true");
                 }
+
 
                 feature.put("properties", props);
                 featuresArray.put(feature);
@@ -106,6 +126,9 @@ public class CreateGeoJSON {
             }
 
         }
+
+        // Set filterforArcGis back to false for the next run...
+        filterforArcGis = false;
 
 
         JSONObject fc = new JSONObject();
