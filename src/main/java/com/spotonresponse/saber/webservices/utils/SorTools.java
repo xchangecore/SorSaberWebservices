@@ -41,6 +41,19 @@ public class SorTools {
         iconmap.put("walgreens", "walgreens.png");
         iconmap.put("conoco", "conoco.png");
         iconmap.put("wyndham", "wyndham.png");
+        iconmap.put("exxon", "exxon.png");
+        iconmap.put("shoprite", "ShopRite.png");
+        iconmap.put("shop rite", "ShopRite.png");
+        iconmap.put("pricerite", "PriceRite.png");
+        iconmap.put("price rite", "PriceRite.png");
+        iconmap.put("meijer", "meijer.png");
+        iconmap.put("albertsons", "albertsons.png");
+        iconmap.put("fredmeyer", "fredmeyer.png");
+        iconmap.put("riteaid", "riteaid.png");
+        iconmap.put("chevron", "chevron.png");
+        iconmap.put("sinclair", "sinclair.png");
+        iconmap.put("price chopper", "pricechopper.png");
+        iconmap.put("luckys", "luckys.png");
 
         String icon = "";
 

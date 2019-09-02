@@ -88,8 +88,17 @@ public class WebserviceController {
                     JSONObject jo_item = jo.getJSONObject("item");
                     //logger.info("jo: " + jo.toString(2));
                     try {
-                        if (jo_item.getString("status").equals(filter)) {
-                            jsonFiltered.put(jo);
+
+                        if (jo_item.has("Status")) {
+                            if (jo_item.getString("Status").equalsIgnoreCase(filter.toLowerCase())) {
+                                jsonFiltered.put(jo);
+                            }
+                        } else {
+                            if (jo_item.has("status")) {
+                                if (jo_item.getString("status").equalsIgnoreCase(filter)) {
+                                    jsonFiltered.put(jo);
+                                }
+                            }
                         }
                     } catch (org.json.JSONException jex) {
                         logger.info("Entity does not contain status: " + jex.getMessage());

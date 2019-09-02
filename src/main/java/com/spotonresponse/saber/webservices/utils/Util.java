@@ -1,7 +1,6 @@
 package com.spotonresponse.saber.webservices.utils;
 
 import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
