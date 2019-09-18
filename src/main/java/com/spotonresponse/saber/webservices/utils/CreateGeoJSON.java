@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 
@@ -53,22 +54,21 @@ public class CreateGeoJSON {
                     logger.warn("No Status Provided");
                 }
 
-                String iconquery = "";
-                try {
-                    if (itemJson.getString("Data Source URL") != null) {
-                        iconquery += itemJson.getString("Data Source URL");
-                    }
-                } catch (JSONException jex) {
-                    logger.warn("DataSourceUrl was not found");
-                }
+                ArrayList<String> iconquery = new ArrayList<String>();
+                String field = "Data Source URL";
+                iconquery.add(checkIconKey(itemJson, field));
 
-                try {
-                    if (itemJson.getString("title") != null) {
-                        iconquery += itemJson.getString("title");
-                    }
-                } catch (JSONException jex) {
-                    logger.warn("Title was not found");
-                }
+                field = "title";
+                iconquery.add(checkIconKey(itemJson, field));
+
+                field = "Name";
+                iconquery.add(checkIconKey(itemJson, field));
+
+                field = "What";
+                iconquery.add(checkIconKey(itemJson, field));
+
+                field = "Description";
+                iconquery.add(checkIconKey(itemJson, field));
 
 
                 String icon = SorTools.determineIcon(useStatus, iconquery);
@@ -137,5 +137,17 @@ public class CreateGeoJSON {
         fc.put("features", featuresArray);
 
         return fc;
+    }
+
+    private static String checkIconKey(JSONObject itemJson, String key) {
+        try {
+            if (itemJson.getString(key) != null) {
+                return itemJson.getString(key);
+            }
+        } catch (JSONException jex) {
+            logger.warn(key + " was not found");
+        }
+        return "";
+
     }
 }

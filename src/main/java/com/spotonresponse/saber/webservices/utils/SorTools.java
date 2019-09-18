@@ -3,6 +3,7 @@ package com.spotonresponse.saber.webservices.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class SorTools {
 
     private static Map<String, String> iconmap = new HashMap<String, String>();
 
-    public static String determineIcon(String status, String client) {
+    public static String determineIcon(String status, ArrayList<String> fields) {
         // Add icons to the icon map
         iconmap.put("walmart", "WalmartIcon.png");
         iconmap.put("7-eleven", "7-Eleven.png");
@@ -41,7 +42,9 @@ public class SorTools {
         iconmap.put("walgreens", "walgreens.png");
         iconmap.put("conoco", "conoco.png");
         iconmap.put("wyndham", "wyndham.png");
-
+        iconmap.put("food-grocery", "food-grocery.png");
+        iconmap.put("associated grocers", "associatedgrocers.png");
+        iconmap.put("price chopper", "pricechopper.png");
         String icon = "";
 
 
@@ -62,11 +65,22 @@ public class SorTools {
 
             // TODO: Enhance this bit to use a lookup table for customers
             //  and the associated icons
-            logger.debug("Searching icons for string: " + client.toLowerCase());
 
-            for (Map.Entry<String, String> iconEntry : iconmap.entrySet()) {
-                if (client.toLowerCase().contains(iconEntry.getKey())) {
-                    icon = mapMarkerDirectory + iconEntry.getValue();
+            // Loop over the field that were sent
+            for (String field : fields) {
+                logger.debug("Searching icons for string: " + field.toLowerCase());
+
+                // Now loop through all the configured icons and try to find a match
+                // Once hit  stop
+                for (Map.Entry<String, String> iconEntry : iconmap.entrySet()) {
+                    if (field.toLowerCase().contains(iconEntry.getKey())) {
+                        icon = mapMarkerDirectory + iconEntry.getValue();
+                        break;
+                    }
+                }
+
+                // Stop as soon as we find a match
+                if (!icon.isEmpty()) {
                     break;
                 }
             }
