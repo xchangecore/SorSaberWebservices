@@ -58,10 +58,10 @@ public class CreateGeoJSON {
                 String field = "Data Source URL";
                 iconquery.add(checkIconKey(itemJson, field));
 
-                field = "title";
+                field = "Name";
                 iconquery.add(checkIconKey(itemJson, field));
 
-                field = "Name";
+                field = "title";
                 iconquery.add(checkIconKey(itemJson, field));
 
                 field = "What";
