@@ -3,7 +3,9 @@ plugins {
     id 'java'
 }
 
+
 apply plugin: 'io.spring.dependency-management'
+
 
 group = 'com.spotonresponse.saber'
 version = '1.2.2'
@@ -26,6 +28,7 @@ repositories {
     mavenCentral()
    
 }
+
 
 bootJar {
     launchScript()
