@@ -1,13 +1,16 @@
 package com.spotonresponse.saber.webservices.utils;
 
 
+import com.google.cloud.datastore.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class CreateGeoJSON {
@@ -31,6 +34,21 @@ public class CreateGeoJSON {
 
         JSONArray featuresArray = new JSONArray();
         int items = jArray.length();
+
+        // Add icons from Google DataStore
+        Map<String, String> iconmap = new HashMap<String, String>();
+
+        Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("icons")
+                .build();
+        QueryResults<Entity> results = datastore.run(query);
+        logger.info("Looping icons...");
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            logger.info("Add icon: " + entity.getString("name"));
+            iconmap.put(entity.getString("name"), entity.getString("icon"));
+        }
 
 
         for (int i = 0; i < jArray.length(); i++) {
@@ -71,7 +89,7 @@ public class CreateGeoJSON {
                 iconquery.add(checkIconKey(itemJson, field));
 
 
-                String icon = SorTools.determineIcon(useStatus, iconquery);
+                String icon = SorTools.determineIcon(useStatus, iconquery, iconmap);
                 itemJson.put("icon", icon);
 
                 double latitude = Double.valueOf(loc[0]);
@@ -145,7 +163,7 @@ public class CreateGeoJSON {
                 return itemJson.getString(key);
             }
         } catch (JSONException jex) {
-            logger.warn(key + " was not found");
+            //logger.warn(key + " was not found");
         }
         return "";
 
