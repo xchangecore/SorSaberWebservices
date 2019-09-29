@@ -20,6 +20,7 @@ public class SorTools {
 
         // Add an icon to display with the GeoJSON file
         // Use GrayScale icons for closed status
+        boolean found = false;
         try {
             String icondir = "";
             if (status.toLowerCase().equals("closed")) {
@@ -31,18 +32,17 @@ public class SorTools {
             }
 
             String mapMarkerDirectory = "https://app.spotonresponse.com/MapMarkers/" + icondir;
-
-
-            boolean found = false;
+            found = false;
             for (String field : fields) {
                 // TODO: Enhance this bit to use a lookup table for customers
                 //  and the associated icons
-                logger.debug("Searching icons for string: " + field.toLowerCase());
+                logger.info("Searching icons for string: " + field.toLowerCase());
 
                 for (Map.Entry<String, String> iconEntry : iconmap.entrySet()) {
                     if (field.toLowerCase().contains(iconEntry.getKey())) {
                         icon = mapMarkerDirectory + iconEntry.getValue();
                         found = true;
+                        logger.debug("Found icon...");
                         break;
                     }
                 }
@@ -55,6 +55,9 @@ public class SorTools {
             logger.warn("Entity does not contain status or icon");
         }
 
+        if (!found) {
+            logger.debug("No icon found");
+        }
         return icon;
     }
 }

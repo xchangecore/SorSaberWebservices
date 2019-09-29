@@ -3,7 +3,6 @@ package com.spotonresponse.saber.webservices.utils;
 
 import com.google.cloud.datastore.*;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
@@ -43,19 +42,20 @@ public class CreateGeoJSON {
                 .setKind("icons")
                 .build();
         QueryResults<Entity> results = datastore.run(query);
-        logger.info("Looping icons...");
+        logger.info("Fetching icon database...");
         while (results.hasNext()) {
             Entity entity = results.next();
-            logger.info("Add icon: " + entity.getString("name"));
+            logger.debug("Add icon: " + entity.getString("name"));
             iconmap.put(entity.getString("name"), entity.getString("icon"));
         }
 
 
         for (int i = 0; i < jArray.length(); i++) {
+            JSONObject itemJson = new JSONObject();
             try {
                 JSONObject properties = jArray.getJSONObject(i);
 
-                JSONObject itemJson = properties.getJSONObject("item");
+                itemJson = properties.getJSONObject("item");
                 JSONObject where = itemJson.getJSONObject("where");
                 JSONObject point = where.getJSONObject("Point");
                 String pos = point.getString("pos");
@@ -64,30 +64,46 @@ public class CreateGeoJSON {
 
                 // If we we not given a status, assume "Open" for the icon color
                 String useStatus = "Open";
-                try {
-                    if (itemJson.getString("status") != null) {
-                        useStatus = itemJson.getString("status");
+                if (itemJson.has("status")) {
+                    useStatus = itemJson.getString("status");
+                } else {
+                    if (itemJson.has("Status")) {
+                        useStatus = itemJson.getString("Status");
+                    } else {
+                        logger.debug("JsonItem has no key Status or status");
                     }
-                } catch (JSONException jex) {
-                    logger.warn("No Status Provided");
                 }
 
                 ArrayList<String> iconquery = new ArrayList<String>();
                 String field = "Data Source URL";
-                iconquery.add(checkIconKey(itemJson, field));
+                String fielddata = checkIconKey(itemJson, field);
+                if (fielddata.length() > 1) {
+                    iconquery.add(fielddata);
+                }
 
                 field = "Name";
-                iconquery.add(checkIconKey(itemJson, field));
+                fielddata = checkIconKey(itemJson, field);
+                if (fielddata.length() > 1) {
+                    iconquery.add(fielddata);
+                }
 
                 field = "title";
-                iconquery.add(checkIconKey(itemJson, field));
+                fielddata = checkIconKey(itemJson, field);
+                if (fielddata.length() > 1) {
+                    iconquery.add(fielddata);
+                }
 
                 field = "What";
-                iconquery.add(checkIconKey(itemJson, field));
+                fielddata = checkIconKey(itemJson, field);
+                if (fielddata.length() > 1) {
+                    iconquery.add(fielddata);
+                }
 
                 field = "Description";
-                iconquery.add(checkIconKey(itemJson, field));
-
+                fielddata = checkIconKey(itemJson, field);
+                if (fielddata.length() > 1) {
+                    iconquery.add(fielddata);
+                }
 
                 String icon = SorTools.determineIcon(useStatus, iconquery, iconmap);
                 itemJson.put("icon", icon);
@@ -139,7 +155,7 @@ public class CreateGeoJSON {
                 featuresArray.put(feature);
 
             } catch (Exception ex) {
-                logger.warn("Unable to add item to GeoJSON: " + ex);
+                logger.warn("Unable to add item with hash: " + itemJson.get("md5hash") + " to GeoJSON: " + ex);
                 logger.error(ex.getMessage());
             }
 
@@ -158,12 +174,8 @@ public class CreateGeoJSON {
     }
 
     private static String checkIconKey(JSONObject itemJson, String key) {
-        try {
-            if (itemJson.getString(key) != null) {
+        if (itemJson.has(key)) {
                 return itemJson.getString(key);
-            }
-        } catch (JSONException jex) {
-            //logger.warn(key + " was not found");
         }
         return "";
 
