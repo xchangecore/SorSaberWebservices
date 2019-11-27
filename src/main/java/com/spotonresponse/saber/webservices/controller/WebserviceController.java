@@ -53,6 +53,8 @@ public class WebserviceController {
                         @RequestParam(value = "bottomRight", defaultValue = "") String bottomRight, 
                         @RequestParam(value = "status", defaultValue = "") String status) {
 
+
+        
         // Get the current time
         Instant now = Instant.now();
         Instant scanStart = Instant.now();
