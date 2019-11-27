@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spotonresponse.saber.webservices.bl.SaberDataBl;
 import com.spotonresponse.saber.webservices.model.Entity;
 import com.spotonresponse.saber.webservices.model.EntityKey;
 import com.spotonresponse.saber.webservices.model.EntityRepository;
@@ -33,8 +32,7 @@ public class WebserviceController {
     @Autowired
     private EntityRepository repo;
     
-  
-
+    
     // Caching parameters
     private int CacheTimeoutSeconds = 7200;
     private int CacheTimeoutForceSeconds = 10;
@@ -116,61 +114,6 @@ public class WebserviceController {
             jsonFiltered = resultArray;
         }
       
-        //code added by saroj starts
-      JSONArray jsonFilteredWithStatus = new JSONArray();
-       
-        if (status.length() > 2 ) {
-        	try {
-        		 for (int c = 0; c < jsonFiltered.length(); c++) {
-        			 
-        			 	JSONObject jsonObject = jsonFiltered.getJSONObject(c);
-        			 	JSONObject jsonItem = jsonObject.getJSONObject("item");
-        			 	
-        			 	if(jsonItem.has("Status")&&status.equalsIgnoreCase("Closed")){
-        			 		
-        			 		String statusString = jsonItem.getString("Status");
-        			 		
-        			 		if(statusString.length()>2){
-        			 			
-        			 			if(statusString.equalsIgnoreCase("Closed")){
-        			 				jsonFilteredWithStatus.put(jsonObject);
-            			 		}
-        			 			if(statusString.equalsIgnoreCase("closed")){
-        			 				jsonFilteredWithStatus.put(jsonObject);
-        			 			}
-        			 		}
-        			 		
-        			 	}else{
-        			 		
-            			 	if(jsonItem.has("status")&& status.equalsIgnoreCase("!Closed")){
-            			 		
-            			 		String statusString = jsonItem.getString("status");
-            			 		if(statusString.length()>2){
-            			 			
-            			 			if(!statusString.equalsIgnoreCase("Closed")){
-            			 				jsonFilteredWithStatus.put(jsonObject);
-                			 		}
-            			 			if(!statusString.equalsIgnoreCase("closed")){
-            			 				jsonFilteredWithStatus.put(jsonObject);
-            			 			}
-            			 		}
-            			 	}
-
-        			 		
-        			 	}
-        			 	
-        		 }
-        	}catch (org.json.JSONException jex) {
-                logger.info("Entity does not contain status: " + jex.getMessage());
-            }
-        	
-        }else if (jsonFilteredWithStatus.length()== 0) {
-        	jsonFilteredWithStatus = jsonFiltered;
-        }else{
-        	jsonFilteredWithStatus = jsonFiltered;
-        }
-     
-      //code added by saroj ends
 
 
         JSONArray jsonBounded = new JSONArray();
@@ -195,7 +138,7 @@ public class WebserviceController {
                         Polygon bb = gb.box(lon1, lat1, lon2, lat2);
 
                         // Loop over the filtered JSONArray and get the coordinates
-                        for (int c = 0; c < jsonFilteredWithStatus.length(); c++) {
+                        for (int c = 0; c < jsonFiltered.length(); c++) {
                             JSONObject jo = resultArray.getJSONObject(c);
                             JSONObject jo_item = jo.getJSONObject("item");
                             JSONObject where = jo_item.getJSONObject("where");
@@ -212,7 +155,7 @@ public class WebserviceController {
 
                 } else {
                     error = "{'error': 'Invalid bounding coordinates provided' }";
-                    jsonBounded = jsonFilteredWithStatus;
+                    jsonBounded = jsonFiltered;
                 }
             } catch (org.json.JSONException jex) {
                 logger.info("unable to use bounding box: " + jex.getMessage());
@@ -220,7 +163,7 @@ public class WebserviceController {
             }
         } else {
             // No bounding box, pass the filtered array
-            jsonBounded = jsonFilteredWithStatus;
+            jsonBounded = jsonFiltered;
         }
 
 
@@ -271,6 +214,5 @@ public class WebserviceController {
         return output;
     }
     
-    
-    
+
 }
