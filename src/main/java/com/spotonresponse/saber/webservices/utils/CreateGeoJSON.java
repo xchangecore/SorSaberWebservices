@@ -45,7 +45,7 @@ public class CreateGeoJSON {
         logger.info("Fetching icon database...");
         while (results.hasNext()) {
             Entity entity = results.next();
-            logger.debug("Add icon: " + entity.getString("name"));
+            //logger.debug("Add icon: " + entity.getString("name"));
             iconmap.put(entity.getString("name"), entity.getString("icon"));
         }
 

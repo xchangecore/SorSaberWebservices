@@ -36,7 +36,7 @@ public class SorTools {
             for (String field : fields) {
                 // TODO: Enhance this bit to use a lookup table for customers
                 //  and the associated icons
-                logger.info("Searching icons for string: " + field.toLowerCase());
+                //logger.info("Searching icons for string: " + field.toLowerCase());
 
                 for (Map.Entry<String, String> iconEntry : iconmap.entrySet()) {
                     if (field.toLowerCase().contains(iconEntry.getKey())) {

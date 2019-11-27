@@ -32,9 +32,8 @@ public class WebserviceController {
     @Autowired
     private EntityRepository repo;
     
-    
     // Caching parameters
-    private int CacheTimeoutSeconds = 7200;
+    private long CacheTimeoutSeconds = 180;
     private int CacheTimeoutForceSeconds = 10;
     private Instant DbLastQueryTime = Instant.now();
     private boolean firstRun = true;
@@ -58,22 +57,42 @@ public class WebserviceController {
         Instant now = Instant.now();
         Instant scanStart = Instant.now();
 
-        if ((md5hash.length() > 1) && (title.length() > 1)) {
-            resultArray = new JSONArray();
-            EntityKey ek = new EntityKey();
-            ek.setMd5hash(md5hash);
-            ek.setTitle(title);
-            Entity e = repo.findByKey(ek);
-            if (e != null) {
-                resultArray.put(e.getEntityJson());
-            }
+        // Determine if we should just used cached data instead of
+        // re-querying the database
+        // Query the database if:
+        // 1. This is the first run
+        // 2. The last database query is within CacheTimeoutSeconds
+        // 3. nocache=true unless it is within CacheTimeoutForceSeconds - we will force cache if within just a few seconds to reduce load on DB
+        logger.severe("firstRun is" + firstRun);
+        logger.severe("DbLastQueryTime: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
+        logger.severe("Now:             " + now);
+        logger.severe("NoCache: " + nocache);
 
-        } else {
-            // Get all results in the Database
-            resultArray = new JSONArray();
-            for (Entity e : repo.findAll()) {
-                resultArray.put(e.getEntityJson());
+        if ( (firstRun)
+                || (DbLastQueryTime.plusSeconds(CacheTimeoutSeconds).isBefore(now))
+                || ( (nocache.toLowerCase().equals("true"))) && (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(now)) ) {
+            logger.severe("Querying database");
+            firstRun = false;
+            DbLastQueryTime = Instant.now();
+            if ((md5hash.length() > 1) && (title.length() > 1)) {
+                resultArray = new JSONArray();
+                EntityKey ek = new EntityKey();
+                ek.setMd5hash(md5hash);
+                ek.setTitle(title);
+                Entity e = repo.findByKey(ek);
+                if (e != null) {
+                    resultArray.put(e.getEntityJson());
+                }
+
+            } else {
+                // Get all results in the Database
+                resultArray = new JSONArray();
+                for (Entity e : repo.findAll()) {
+                    resultArray.put(e.getEntityJson());
+                }
             }
+        } else {
+            logger.severe("Using Cached data");
         }
 
         Instant scanEnd = Instant.now();
@@ -116,6 +135,8 @@ public class WebserviceController {
       
 
 
+        // jsonBounded is a new JSONArray to store the items after the bound box (geofence) is applied
+        // if those parameters were specified.
         JSONArray jsonBounded = new JSONArray();
         String error = "";
         // Check to see if we were given bounding box coordinates
@@ -139,7 +160,7 @@ public class WebserviceController {
 
                         // Loop over the filtered JSONArray and get the coordinates
                         for (int c = 0; c < jsonFiltered.length(); c++) {
-                            JSONObject jo = resultArray.getJSONObject(c);
+                            JSONObject jo = jsonFiltered.getJSONObject(c);
                             JSONObject jo_item = jo.getJSONObject("item");
                             JSONObject where = jo_item.getJSONObject("where");
                             JSONObject point = where.getJSONObject("Point");
@@ -169,8 +190,8 @@ public class WebserviceController {
 
         // Determine what output is needed, and format the data as necessary
         if (error.isEmpty()) {
-            Instant jsonStart = null;
-            Instant jsonEnd = null;
+            Instant jsonStart;
+            Instant jsonEnd;
             JSONObject perf = null;
             JSONObject jo = null;
             switch (outputFormat) {
