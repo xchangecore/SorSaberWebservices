@@ -53,6 +53,9 @@ public class WebserviceController {
                         @RequestParam(value = "bottomRight", defaultValue = "") String bottomRight, 
                         @RequestParam(value = "status", defaultValue = "") String status) {
 
+
+
+
         // Get the current time
         Instant now = Instant.now();
         Instant scanStart = Instant.now();
@@ -70,11 +73,19 @@ public class WebserviceController {
 
         if ( (firstRun)
                 || (DbLastQueryTime.plusSeconds(CacheTimeoutSeconds).isBefore(now))
-                || ( (nocache.toLowerCase().equals("true"))) && (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(now)) ) {
+                || ( (nocache.toLowerCase().equals("true"))) &&
+                (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(now)) ) {
             logger.severe("Querying database");
             firstRun = false;
             DbLastQueryTime = Instant.now();
-            if ((md5hash.length() > 1) && (title.length() > 1)) {
+
+            // Get all results in the Database
+            resultArray = new JSONArray();
+            for (Entity e : repo.findAll()) {
+                resultArray.put(e.getEntityJson());
+            }
+
+            /*if ((md5hash.length() > 1) && (title.length() > 1)) {
                 resultArray = new JSONArray();
                 EntityKey ek = new EntityKey();
                 ek.setMd5hash(md5hash);
@@ -90,7 +101,7 @@ public class WebserviceController {
                 for (Entity e : repo.findAll()) {
                     resultArray.put(e.getEntityJson());
                 }
-            }
+            }*/
         } else {
             logger.severe("Using Cached data");
         }
