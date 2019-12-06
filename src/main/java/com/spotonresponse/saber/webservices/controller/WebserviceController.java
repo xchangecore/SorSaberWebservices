@@ -1,29 +1,27 @@
 package com.spotonresponse.saber.webservices.controller;
 
 
-import static com.spotonresponse.saber.webservices.utils.Util.isValidCoordinate;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.logging.Logger;
-
+import com.spotonresponse.saber.webservices.model.Entity;
+import com.spotonresponse.saber.webservices.model.EntityKey;
+import com.spotonresponse.saber.webservices.model.EntityRepository;
+import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
+import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spotonresponse.saber.webservices.model.Entity;
-import com.spotonresponse.saber.webservices.model.EntityKey;
-import com.spotonresponse.saber.webservices.model.EntityRepository;
-import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
-import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.logging.Logger;
+
+import static com.spotonresponse.saber.webservices.utils.Util.isValidCoordinate;
 
 
 @RestController
@@ -54,7 +52,6 @@ public class WebserviceController {
                         @RequestParam(value = "status", defaultValue = "") String status) {
 
 
-        
         // Get the current time
         Instant now = Instant.now();
         Instant scanStart = Instant.now();
