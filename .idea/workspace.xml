@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7f778f48-0f6a-473e-908f-facd432c8c99" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/service/FilterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/javaCompile/classAnalysis.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/javaCompile/taskHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileContent/fileContent.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SorSaberWebServices.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SorSaberWebServices" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="SorSaberWebServices" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Ernie Dipko &lt;ernie.dipko@gmail.com&gt;" />
+        <option value="ernie.dipko@gmail.com" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="SaberDev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1R6R9yRlURcGaQJtLMeEhfq93HE" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1559184781328" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15274152" />
+    <property name="project.structure.side.proportion" value="0.41757247" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.spotonresponse.saber.webservices.utils" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.SorSaberWebServices [bootRun]">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LoadIcons" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.spotonresponse.saber.webservices.utils.LoadIcons" />
+      <module name="SorSaberWebServices.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.spotonresponse.saber.webservices.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.spotonresponse.saber.webservices.utils.LoadIcons" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SorSaberWebServices [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SorSaberWebServices [bootRun]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootRun" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SorSaberWebServices [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SorSaberWebServices [compileJava]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="compileJava" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SorSaberWebServices [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SorSaberWebservices-Springboot-Config" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="com.spotonresponse.saber.SorSaberWebServices.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.spotonresponse.saber.WebserviceApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.LoadIcons" />
+      <item itemvalue="Gradle.SorSaberWebServices [bootRun]" />
+      <item itemvalue="Gradle.SorSaberWebServices [bootJar]" />
+      <item itemvalue="Gradle.SorSaberWebServices [compileJava]" />
+      <item itemvalue="Gradle.SorSaberWebServices [test]" />
+      <item itemvalue="Gradle.SorSaberWebServices [clean]" />
+      <item itemvalue="Spring Boot.SorSaberWebservices-Springboot-Config" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.SorSaberWebServices [clean]" />
+        <item itemvalue="Gradle.SorSaberWebServices [test]" />
+        <item itemvalue="Gradle.SorSaberWebServices [compileJava]" />
+        <item itemvalue="Gradle.SorSaberWebServices [bootJar]" />
+        <item itemvalue="Gradle.SorSaberWebServices [clean]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7f778f48-0f6a-473e-908f-facd432c8c99" name="Default Changelist" comment="" />
+      <created>1552840706480</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1552840706480</updated>
+      <workItem from="1552840707889" duration="19967000" />
+      <workItem from="1552916781382" duration="22388000" />
+      <workItem from="1553000526696" duration="10332000" />
+      <workItem from="1553021907914" duration="91000" />
+      <workItem from="1553022004399" duration="457000" />
+      <workItem from="1553022465716" duration="4668000" />
+      <workItem from="1553101638941" duration="901000" />
+      <workItem from="1553113514479" duration="2032000" />
+      <workItem from="1553287186561" duration="294000" />
+      <workItem from="1555635872262" duration="1647000" />
+      <workItem from="1556048373791" duration="226000" />
+      <workItem from="1556239749607" duration="835000" />
+      <workItem from="1557763542615" duration="1955000" />
+      <workItem from="1558095759846" duration="852000" />
+      <workItem from="1558225954835" duration="2044000" />
+      <workItem from="1558292396543" duration="2033000" />
+      <workItem from="1558376407031" duration="410000" />
+      <workItem from="1558548066620" duration="312000" />
+      <workItem from="1558624415456" duration="5490000" />
+      <workItem from="1558657575675" duration="7000" />
+      <workItem from="1558698004965" duration="579000" />
+      <workItem from="1558727759942" duration="4048000" />
+      <workItem from="1558815250548" duration="339000" />
+      <workItem from="1559063205510" duration="800000" />
+      <workItem from="1559070591006" duration="610000" />
+      <workItem from="1559133727430" duration="28000" />
+      <workItem from="1559133810677" duration="6291000" />
+      <workItem from="1559229755079" duration="1075000" />
+      <workItem from="1562265482846" duration="60000" />
+      <workItem from="1567201295019" duration="3979000" />
+      <workItem from="1567285346766" duration="642000" />
+      <workItem from="1568139727555" duration="478000" />
+      <workItem from="1568985413330" duration="321000" />
+      <workItem from="1569343933259" duration="650000" />
+      <workItem from="1569545824298" duration="3137000" />
+      <workItem from="1569606201365" duration="276000" />
+      <workItem from="1569614184821" duration="3000" />
+      <workItem from="1569763693558" duration="8571000" />
+      <workItem from="1569876449111" duration="341000" />
+      <workItem from="1571015355808" duration="716000" />
+      <workItem from="1571146128431" duration="725000" />
+      <workItem from="1571229262548" duration="511000" />
+      <workItem from="1571322260763" duration="314000" />
+      <workItem from="1571329264976" duration="272000" />
+      <workItem from="1571429274059" duration="1317000" />
+      <workItem from="1571435372746" duration="438000" />
+      <workItem from="1571669340659" duration="3198000" />
+      <workItem from="1571783752196" duration="5296000" />
+      <workItem from="1571837300263" duration="345000" />
+      <workItem from="1571924582414" duration="1585000" />
+      <workItem from="1572487119330" duration="126000" />
+      <workItem from="1572655329896" duration="377000" />
+      <workItem from="1572657014436" duration="81000" />
+      <workItem from="1572875895286" duration="1031000" />
+      <workItem from="1573048108311" duration="2295000" />
+      <workItem from="1573131450863" duration="1681000" />
+      <workItem from="1573445102948" duration="205000" />
+      <workItem from="1573668238105" duration="923000" />
+      <workItem from="1573679127723" duration="298000" />
+      <workItem from="1573835401881" duration="1776000" />
+      <workItem from="1574088767762" duration="1302000" />
+      <workItem from="1574435123552" duration="935000" />
+      <workItem from="1574861665914" duration="4462000" />
+      <workItem from="1574869074169" duration="3000" />
+      <workItem from="1575651912870" duration="1714000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <created>1555638967935</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1555638967936</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add Readme">
+      <created>1555640008654</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1555640008654</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1.0.4 - Add Icons and Fix Logging for SpringBoot">
+      <created>1558229206888</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1558229206888</updated>
+    </task>
+    <task id="LOCAL-00004" summary="1.0.7 - Multiple fixes for SABER demo">
+      <created>1558698689132</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1558698689132</updated>
+    </task>
+    <task id="LOCAL-00005" summary="1.0.7 - Multiple fixes for SABER demo - set Mime type application/json">
+      <created>1559065763407</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1559065763407</updated>
+    </task>
+    <task id="LOCAL-00006" summary="1.0.7 - Multiple fixes for SABER demo - set Mime type application/json">
+      <created>1559065860798</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1559065860798</updated>
+    </task>
+    <task id="LOCAL-00007" summary="1.1.0 - Add support to send minimal GeoJSON and then query for individual records.">
+      <created>1559150087970</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1559150087970</updated>
+    </task>
+    <task id="LOCAL-00008" summary="1.2.0 - Add filter for ArcGIS, fix problems with status filter">
+      <created>1567266543303</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1567266543303</updated>
+    </task>
+    <task id="LOCAL-00009" summary="1.2.0 - Added ignore case when applying filter">
+      <created>1567454121017</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1567454121017</updated>
+    </task>
+    <task id="LOCAL-00010" summary="1.2.2 - Adjust icons">
+      <created>1569598559502</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1569598559503</updated>
+    </task>
+    <task id="LOCAL-00011" summary="1.2.2 - Adjust icons">
+      <created>1569598655622</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1569598655622</updated>
+    </task>
+    <task id="LOCAL-00012" summary="1.2.2 - Adjust icons and merge">
+      <created>1569598754391</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1569598754391</updated>
+    </task>
+    <task id="LOCAL-00013" summary="1.3.0 - Add support for Google Datastore icon database">
+      <created>1569769040547</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1569769040547</updated>
+    </task>
+    <task id="LOCAL-00014" summary="1.3.1 - Bug Fixes for the icon database">
+      <created>1569795649161</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1569795649161</updated>
+    </task>
+    <task id="LOCAL-00015" summary="1.3.1 - Bug Fixes for the icon database">
+      <created>1575652123082</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1575652123082</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UpdateCopyrightCheckinHandler">
+    <option name="UPDATE_COPYRIGHT" value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <MESSAGE value="Initial Commit" />
+    <MESSAGE value="Add Readme" />
+    <MESSAGE value="1.0.4 - Add Icons and Fix Logging for SpringBoot" />
+    <MESSAGE value="1.0.7 - Multiple fixes for SABER demo" />
+    <MESSAGE value="1.0.7 - Multiple fixes for SABER demo - set Mime type application/json" />
+    <MESSAGE value="1.1.0 - Add support to send minimal GeoJSON and then query for individual records." />
+    <MESSAGE value="1.2.0 - Add filter for ArcGIS, fix problems with status filter" />
+    <MESSAGE value="1.2.0 - Added ignore case when applying filter" />
+    <MESSAGE value="1.2.2 - Adjust icons" />
+    <MESSAGE value="1.2.2 - Adjust icons and merge" />
+    <MESSAGE value="1.3.0 - Add support for Google Datastore icon database" />
+    <MESSAGE value="1.3.1 - Bug Fixes for the icon database" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.3.1 - Bug Fixes for the icon database" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring (com.spotonresponse.saber.SorSaberWebServices.main)|Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.41757247" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring|main|com.spotonresponse.saber.SorSaberWebServices</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.41757247" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Gradle: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

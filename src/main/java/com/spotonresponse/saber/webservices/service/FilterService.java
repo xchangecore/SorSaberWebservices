@@ -23,7 +23,10 @@ public class FilterService {
             JSONObject joItem = jo.getJSONObject("item");
 
             if(hasKeysFilter(joItem, filters) && allValuesMatchFilter(joItem, filters)){
-                resultArray.put(joItem);
+                JSONObject jo2 = jo;
+                jo.remove("item");
+                jo.put("item", joItem);
+                resultArray.put(jo);
             }
         }
 

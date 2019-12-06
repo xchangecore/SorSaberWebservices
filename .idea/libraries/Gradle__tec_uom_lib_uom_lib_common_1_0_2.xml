@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: tec.uom.lib:uom-lib-common:1.0.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/tec.uom.lib/uom-lib-common/1.0.2/7159c464e682dd273902b3a3f32967a881e9193b/uom-lib-common-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/tec.uom.lib/uom-lib-common/1.0.2/f22cfbafab9e465f26e96244f536e585b69a85c0/uom-lib-common-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
