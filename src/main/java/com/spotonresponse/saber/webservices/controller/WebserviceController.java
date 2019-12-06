@@ -101,7 +101,11 @@ public class WebserviceController {
 
         // We are now either using cached data, or the database query has completed
         // Determine if we need to filter items before returning to client
-        JSONArray jsonFiltered = filterService.filter(allParams);
+        JSONArray jsonFiltered = resultArray;
+        if(!allParams.isEmpty()){
+            jsonFiltered = filterService.filter(resultArray, allParams);
+        }
+
 
         // jsonBounded is a new JSONArray to store the items after the bound box (geofence) is applied
         // if those parameters were specified.
