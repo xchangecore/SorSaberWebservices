@@ -19,13 +19,15 @@ public class FilterService {
         JSONArray resultArray = new JSONArray();
 
         for (int c = 0; c < unfilteredData.length(); c++) {
+            // get the JSON object to be filtered.
             JSONObject jo = unfilteredData.getJSONObject(c);
+
+            // get the "item" part of the JSON object.
             JSONObject joItem = jo.getJSONObject("item");
 
             if(hasKeysFilter(joItem, filters) && allValuesMatchFilter(joItem, filters)){
-                JSONObject jo2 = jo;
-                jo.remove("item");
-                jo.put("item", joItem);
+                // The "item" part of the JSON object passed through the filter. That
+                // qualifies the entire JSON object to be placed in the result array.
                 resultArray.put(jo);
             }
         }
