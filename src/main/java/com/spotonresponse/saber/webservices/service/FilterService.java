@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -65,7 +64,7 @@ public class FilterService {
         if(value.startsWith("(") && value.endsWith(")")){
             return Arrays.asList(value.replace("(", "")
                     .replace(")", "")
-                    .split("\\|"));
+                    .split("~"));
         } else {
             return Collections.singletonList(value);
         }
@@ -104,9 +103,10 @@ public class FilterService {
     private boolean jsonObjectValueMatchesAnyFilterValue(String jsonObjectValue, List<String> filterValues){
         return filterValues.stream().anyMatch(filterValue -> {
             if(filterValue.startsWith("!")){
-                return !jsonObjectValue.equalsIgnoreCase(filterValue.substring(1));
+                boolean contains = jsonObjectValue.toLowerCase().contains(filterValue.substring(1));
+                return !contains;
             } else {
-                return jsonObjectValue.equalsIgnoreCase(filterValue);
+                return jsonObjectValue.toLowerCase().contains(filterValue);
             }
         });
     }

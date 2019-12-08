@@ -8,7 +8,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 group = 'com.spotonresponse.saber'
-version = '1.3.1'
+version = '1.4.2'
 sourceCompatibility = '1.8'
 
 repositories {

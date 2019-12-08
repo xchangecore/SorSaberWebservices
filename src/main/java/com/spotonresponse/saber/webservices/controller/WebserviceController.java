@@ -16,14 +16,12 @@ import org.json.XML;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spotonresponse.saber.webservices.model.Entity;
-import com.spotonresponse.saber.webservices.model.EntityKey;
 import com.spotonresponse.saber.webservices.model.EntityRepository;
 import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
 import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
