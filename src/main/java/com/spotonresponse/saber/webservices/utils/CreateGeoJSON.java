@@ -35,28 +35,6 @@ public class CreateGeoJSON {
         JSONArray featuresArray = new JSONArray();
         int items = jArray.length();
 
-        if (WebserviceController.updateIconMap) {
-            logger.info("Updating icon map");
-            WebserviceController.updateIconMap = false;
-            WebserviceController.IconsLastQueryTime = Instant.now();
-
-            // Add icons from Google DataStore
-            WebserviceController.iconmap = new HashMap<String, String>();
-
-            Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-            Query<Entity> query = Query.newEntityQueryBuilder()
-                    .setKind("icons")
-                    .build();
-            QueryResults<Entity> results = datastore.run(query);
-            logger.info("Fetching icon database...");
-            while (results.hasNext()) {
-                Entity entity = results.next();
-                //logger.debug("Add icon: " + entity.getString("name"));
-                WebserviceController.iconmap.put(entity.getString("name"), entity.getString("icon"));
-            }
-        }
-
-
         for (int i = 0; i < jArray.length(); i++) {
             JSONObject itemJson = new JSONObject();
             try {
