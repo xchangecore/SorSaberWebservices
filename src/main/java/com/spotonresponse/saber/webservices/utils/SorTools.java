@@ -8,15 +8,11 @@ import java.util.Map;
 
 
 public class SorTools {
-
     static Logger logger = LoggerFactory.getLogger(SorTools.class);
-
 
     public static String determineIcon(String status, ArrayList<String> fields, Map<String, String> iconmap) {
 
-
         String icon = "";
-
 
         // Add an icon to display with the GeoJSON file
         // Use GrayScale icons for closed status
@@ -56,7 +52,7 @@ public class SorTools {
         }
 
         if (!found) {
-            logger.debug("No icon found");
+            icon = "https://maps.gstatic.com/mapfiles/ms2/micons/red.png";
         }
         return icon;
     }

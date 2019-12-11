@@ -2,14 +2,15 @@ package com.spotonresponse.saber.webservices.utils;
 
 
 import com.google.cloud.datastore.*;
+import com.spotonresponse.saber.webservices.controller.WebserviceController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 
 public class CreateGeoJSON {
@@ -34,19 +35,25 @@ public class CreateGeoJSON {
         JSONArray featuresArray = new JSONArray();
         int items = jArray.length();
 
-        // Add icons from Google DataStore
-        Map<String, String> iconmap = new HashMap<String, String>();
+        if (WebserviceController.updateIconMap) {
+            logger.info("Updating icon map");
+            WebserviceController.updateIconMap = false;
+            WebserviceController.IconsLastQueryTime = Instant.now();
 
-        Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-        Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("icons")
-                .build();
-        QueryResults<Entity> results = datastore.run(query);
-        logger.info("Fetching icon database...");
-        while (results.hasNext()) {
-            Entity entity = results.next();
-            //logger.debug("Add icon: " + entity.getString("name"));
-            iconmap.put(entity.getString("name"), entity.getString("icon"));
+            // Add icons from Google DataStore
+            WebserviceController.iconmap = new HashMap<String, String>();
+
+            Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+            Query<Entity> query = Query.newEntityQueryBuilder()
+                    .setKind("icons")
+                    .build();
+            QueryResults<Entity> results = datastore.run(query);
+            logger.info("Fetching icon database...");
+            while (results.hasNext()) {
+                Entity entity = results.next();
+                //logger.debug("Add icon: " + entity.getString("name"));
+                WebserviceController.iconmap.put(entity.getString("name"), entity.getString("icon"));
+            }
         }
 
 
@@ -105,7 +112,7 @@ public class CreateGeoJSON {
                     iconquery.add(fielddata);
                 }
 
-                String icon = SorTools.determineIcon(useStatus, iconquery, iconmap);
+                String icon = SorTools.determineIcon(useStatus, iconquery, WebserviceController.iconmap);
                 itemJson.put("icon", icon);
 
                 double latitude = Double.valueOf(loc[0]);

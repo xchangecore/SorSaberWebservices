@@ -6,6 +6,7 @@ import static com.spotonresponse.saber.webservices.utils.Util.isValidCoordinate;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -37,13 +38,26 @@ public class WebserviceController {
     private FilterService filterService;
     
     // Caching parameters
-    private long CacheTimeoutSeconds = 180;
+    private long CacheTimeoutSeconds = 300; // 5 minutes
+
+    // The number of seconds to wait to update cache even if force is specified
     private int CacheTimeoutForceSeconds = 10;
+
     private Instant DbLastQueryTime = Instant.now();
     private boolean firstRun = true;
     private JSONArray resultArray = null;
     private static final Logger logger = Logger.getLogger(WebserviceController.class.getName());
     private String output = "No Data";
+
+    // This will hold the icon map across queries (like a cache) - they rarely get updated
+    public static Map<String, String> iconmap = new HashMap<String, String>();
+    public static boolean updateIconMap = true;
+    // The time to wait before querying for icon changes
+    private long IconsTimeoutSeconds = 3600;  // 1 hour
+    // The Instant the icon map was last updated
+    public static Instant IconsLastQueryTime = Instant.now();
+    // The time to wait between icon refreshes even when forced
+    private long IconsTimeoutForceSeconds = 300;  // 5 minutes
 
     @RequestMapping(value = "/saberdata", produces = {"application/json"})
     @CrossOrigin
@@ -51,6 +65,7 @@ public class WebserviceController {
 
         // Extract the non-filter parameters, and use default values if the parameters are not specified.
         String nocache = allParams.getOrDefault("nocache", "");
+        String updateicons = allParams.getOrDefault("updateicons", "");
         String outputFormat = allParams.getOrDefault("outputFormat", "raw");
         String arcgis = allParams.getOrDefault("arcgis", "false");
         String topLeft = allParams.getOrDefault("topLeft", "");
@@ -71,16 +86,16 @@ public class WebserviceController {
         // 1. This is the first run
         // 2. The last database query is within CacheTimeoutSeconds
         // 3. nocache=true unless it is within CacheTimeoutForceSeconds - we will force cache if within just a few seconds to reduce load on DB
-        logger.severe("firstRun is" + firstRun);
-        logger.severe("DbLastQueryTime: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
-        logger.severe("Now:             " + now);
-        logger.severe("NoCache: " + nocache);
+        logger.info("firstRun is" + firstRun);
+        logger.info("DbLastQueryTime: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
+        logger.info("Now:             " + now);
+        logger.info("NoCache: " + nocache);
 
         if ( (firstRun)
                 || (DbLastQueryTime.plusSeconds(CacheTimeoutSeconds).isBefore(now))
                 || ( (nocache.toLowerCase().equals("true"))) &&
                 (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(now)) ) {
-            logger.severe("Querying database");
+            logger.info("Querying database");
             firstRun = false;
             DbLastQueryTime = Instant.now();
 
@@ -96,6 +111,14 @@ public class WebserviceController {
 
         Instant scanEnd = Instant.now();
 
+        // Determine if the icon hashmap needs to be update
+        if ( (firstRun)
+                || (IconsLastQueryTime.plusSeconds(IconsTimeoutSeconds).isBefore(now))
+                || ( (updateicons.toLowerCase().equals("true"))) &&
+                (IconsLastQueryTime.plusSeconds(IconsTimeoutForceSeconds ).isBefore(now)) )
+        {
+            updateIconMap = true;
+        }
 
         // We are now either using cached data, or the database query has completed
         // Determine if we need to filter items before returning to client

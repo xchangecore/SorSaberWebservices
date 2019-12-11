@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7f778f48-0f6a-473e-908f-facd432c8c99" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/SorSaberWebServices.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -14,11 +10,15 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SorSaberWebServices.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SorSaberWebServices.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SorSaberWebServices.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SorSaberWebServices.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/config/DynamoDBConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/config/DynamoDBConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/controller/WebserviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/controller/WebserviceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/utils/CreateGeoJSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/utils/CreateGeoJSON.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/utils/SorTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/utils/SorTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,8 +65,8 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="Ernie Dipko &lt;ernie.dipko@gmail.com&gt;" />
         <option value="ernie.dipko@gmail.com" />
+        <option value="Ernie Dipko &lt;ernie.dipko@gmail.com&gt;" />
       </list>
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -168,10 +168,15 @@
     </configuration>
     <configuration name="SorSaberWebServices [bootRun]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
+        <option name="env">
+          <map>
+            <entry key="GOOGLE_APPLICATION_CREDENTIALS" value="$USER_HOME$/Downloads/saberdev-969904b9cc93.json" />
+          </map>
+        </option>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -180,7 +185,7 @@
             <option value="bootRun" />
           </list>
         </option>
-        <option name="vmOptions" />
+        <option name="vmOptions" value="" />
       </ExternalSystemSettings>
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
@@ -381,7 +386,14 @@
       <workItem from="1574869074169" duration="3000" />
       <workItem from="1575651912870" duration="1714000" />
       <workItem from="1575824685632" duration="41000" />
-      <workItem from="1575824763336" duration="370000" />
+      <workItem from="1575824763336" duration="621000" />
+      <workItem from="1575829619155" duration="419000" />
+      <workItem from="1575850507321" duration="249000" />
+      <workItem from="1575850879522" duration="32000" />
+      <workItem from="1575851093351" duration="174000" />
+      <workItem from="1575858996831" duration="2756000" />
+      <workItem from="1575996701958" duration="576000" />
+      <workItem from="1576029305411" duration="3133000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1555638967935</created>
@@ -488,7 +500,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575652123082</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="1.4.2 - Change version number">
+      <created>1575825520497</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1575825520498</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,32 +543,49 @@
     <MESSAGE value="1.2.2 - Adjust icons and merge" />
     <MESSAGE value="1.3.0 - Add support for Google Datastore icon database" />
     <MESSAGE value="1.3.1 - Bug Fixes for the icon database" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.3.1 - Bug Fixes for the icon database" />
+    <MESSAGE value="1.4.2 - Change version number" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.4.2 - Change version number" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1210" height="188" key="GridCell.Tab.0.bottom" timestamp="1575824854631">
+    <state x="337" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1575851211272">
       <screen x="0" y="23" width="1680" height="963" />
     </state>
-    <state width="1210" height="188" key="GridCell.Tab.0.bottom/0.23.1680.963@0.23.1680.963" timestamp="1575824854631" />
-    <state width="1210" height="188" key="GridCell.Tab.0.center" timestamp="1575824854630">
+    <state x="337" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.963@0.23.1680.963" timestamp="1575851211272" />
+    <state x="421" y="107" key="CommitChangelistDialog2" timestamp="1575825520312">
       <screen x="0" y="23" width="1680" height="963" />
     </state>
-    <state width="1210" height="188" key="GridCell.Tab.0.center/0.23.1680.963@0.23.1680.963" timestamp="1575824854630" />
-    <state width="1210" height="188" key="GridCell.Tab.0.left" timestamp="1575824854629">
+    <state x="421" y="107" key="CommitChangelistDialog2/0.23.1680.963@0.23.1680.963" timestamp="1575825520312" />
+    <state width="1405" height="346" key="GridCell.Tab.0.bottom" timestamp="1576034516990">
       <screen x="0" y="23" width="1680" height="963" />
     </state>
-    <state width="1210" height="188" key="GridCell.Tab.0.left/0.23.1680.963@0.23.1680.963" timestamp="1575824854629" />
-    <state width="1210" height="188" key="GridCell.Tab.0.right" timestamp="1575824854630">
+    <state width="1405" height="346" key="GridCell.Tab.0.bottom/0.23.1680.963@0.23.1680.963" timestamp="1576034516990" />
+    <state width="1405" height="346" key="GridCell.Tab.0.center" timestamp="1576034516989">
       <screen x="0" y="23" width="1680" height="963" />
     </state>
-    <state width="1210" height="188" key="GridCell.Tab.0.right/0.23.1680.963@0.23.1680.963" timestamp="1575824854630" />
-    <state x="519" y="337" key="com.intellij.ide.util.TipDialog" timestamp="1575824763762">
+    <state width="1405" height="346" key="GridCell.Tab.0.center/0.23.1680.963@0.23.1680.963" timestamp="1576034516989" />
+    <state width="1405" height="346" key="GridCell.Tab.0.left" timestamp="1576034516988">
       <screen x="0" y="23" width="1680" height="963" />
     </state>
-    <state x="519" y="337" key="com.intellij.ide.util.TipDialog/0.23.1680.963@0.23.1680.963" timestamp="1575824763762" />
+    <state width="1405" height="346" key="GridCell.Tab.0.left/0.23.1680.963@0.23.1680.963" timestamp="1576034516988" />
+    <state width="1405" height="346" key="GridCell.Tab.0.right" timestamp="1576034516989">
+      <screen x="0" y="23" width="1680" height="963" />
+    </state>
+    <state width="1405" height="346" key="GridCell.Tab.0.right/0.23.1680.963@0.23.1680.963" timestamp="1576034516989" />
+    <state x="485" y="233" key="Vcs.Push.Dialog.v2" timestamp="1575825583040">
+      <screen x="0" y="23" width="1680" height="963" />
+    </state>
+    <state x="485" y="233" key="Vcs.Push.Dialog.v2/0.23.1680.963@0.23.1680.963" timestamp="1575825583040" />
+    <state x="519" y="337" key="com.intellij.ide.util.TipDialog" timestamp="1576029305642">
+      <screen x="0" y="23" width="1680" height="963" />
+    </state>
+    <state x="519" y="337" key="com.intellij.ide.util.TipDialog/0.23.1680.963@0.23.1680.963" timestamp="1576029305642" />
+    <state x="539" y="261" width="667" height="476" key="find.popup" timestamp="1576033503600">
+      <screen x="0" y="23" width="1680" height="963" />
+    </state>
+    <state x="539" y="261" width="667" height="476" key="find.popup/0.23.1680.963@0.23.1680.963" timestamp="1576033503600" />
   </component>
   <component name="masterDetails">
     <states>

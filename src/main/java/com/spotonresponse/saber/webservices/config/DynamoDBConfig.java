@@ -44,27 +44,29 @@ public class DynamoDBConfig {
 
     @Bean
     public AWSCredentials amazonAWSCredentials() {
-        try {
-            Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-            Query<Entity> query = Query.newEntityQueryBuilder()
-                    .setKind("Credentials")
-                    .setFilter(StructuredQuery.PropertyFilter.eq("UUID", DynamoDbUUID))
-                    .build();
+        logger.debug("Fetching credentials... why?");
+            try {
+                Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+                Query<Entity> query = Query.newEntityQueryBuilder()
+                        .setKind("Credentials")
+                        .setFilter(StructuredQuery.PropertyFilter.eq("UUID", DynamoDbUUID))
+                        .build();
 
-            QueryResults<Entity> results = datastore.run(query);
-            Entity entity = results.next();
-            aws_access_key_id  = entity.getString("username");
-            aws_secret_access_key = entity.getString("password");
-            amazon_endpoint = entity.getString("Endpoint");
-            amazon_region = entity.getString("Region");
-            db_table_name = entity.getString("TableName");
+                QueryResults<Entity> results = datastore.run(query);
+                Entity entity = results.next();
+                aws_access_key_id = entity.getString("username");
+                aws_secret_access_key = entity.getString("password");
+                amazon_endpoint = entity.getString("Endpoint");
+                amazon_region = entity.getString("Region");
+                db_table_name = entity.getString("TableName");
 
-            logger.info("**************Got aws_key: " + aws_access_key_id);
+                logger.info("**************Got aws_key: " + aws_access_key_id);
 
-        } catch (Exception ex) {
-            logger.error("Error: " + ex);
+            } catch (Exception ex) {
+                logger.error("Error: " + ex);
 
-        }
+            }
+
         return new BasicAWSCredentials(aws_access_key_id, aws_secret_access_key );
     }
 
