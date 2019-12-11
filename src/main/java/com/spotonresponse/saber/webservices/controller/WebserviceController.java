@@ -1,6 +1,5 @@
 package com.spotonresponse.saber.webservices.controller;
 
-
 import static com.spotonresponse.saber.webservices.utils.Util.isValidCoordinate;
 
 import java.time.Duration;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.spotonresponse.saber.webservices.service.FilterService;
+import com.spotonresponse.saber.webservices.service.IconService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -36,7 +36,10 @@ public class WebserviceController {
 
     @Autowired
     private FilterService filterService;
-    
+
+    @Autowired
+    private IconService iconService;
+
     // Caching parameters
     private long CacheTimeoutSeconds = 300; // 5 minutes
 
@@ -51,13 +54,53 @@ public class WebserviceController {
 
     // This will hold the icon map across queries (like a cache) - they rarely get updated
     public static Map<String, String> iconmap = new HashMap<String, String>();
-    public static boolean updateIconMap = true;
     // The time to wait before querying for icon changes
-    private long IconsTimeoutSeconds = 3600;  // 1 hour
+    public long IconsTimeoutSeconds = 3600;  // 1 hour
     // The Instant the icon map was last updated
     public static Instant IconsLastQueryTime = Instant.now();
     // The time to wait between icon refreshes even when forced
-    private long IconsTimeoutForceSeconds = 300;  // 5 minutes
+    public static long IconsTimeoutForceSeconds = 300;  // 5 minutes
+
+
+    // Request to update icon map
+    @RequestMapping(value = "/updateicons", produces = {"application/json"})
+    @CrossOrigin
+    public String updateIcons(@RequestParam Map<String,String> allParams) {
+        iconService.updateIcons();
+        JSONObject jo = new JSONObject();
+        jo.put("status", "success");
+        return jo.toString();
+    }
+
+
+    // Request to update cache
+    @RequestMapping(value = "/updatecache", produces = {"application/json"})
+    @CrossOrigin
+    public String updateCache(@RequestParam Map<String,String> allParams) {
+        JSONObject jo = new JSONObject();
+        String message = "";
+
+        if (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(Instant.now()) ) {
+            // Reset DBLastQuery time to current instant
+            DbLastQueryTime = Instant.now();
+
+            // Get all results in the Database
+            resultArray = new JSONArray();
+            for (Entity e : repo.findAll()) {
+                resultArray.put(e.getEntityJson());
+            }
+            message = resultArray.length() + " records have been updated";
+
+        } else {
+            message = "Unable to force cache update, timer has not expired";
+        }
+
+        logger.info(message);
+        jo.put("status", message);
+        return jo.toString();
+    }
+
+
 
     @RequestMapping(value = "/saberdata", produces = {"application/json"})
     @CrossOrigin
@@ -73,7 +116,7 @@ public class WebserviceController {
 
         // Remove the non-filter parameters from the map, and let the rest be
         // treated as filter parameters hence-forth.
-        Arrays.asList("nocache", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
+        Arrays.asList("nocache", "updateicons", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
 
 
         // Get the current time
@@ -96,8 +139,11 @@ public class WebserviceController {
                 || ( (nocache.toLowerCase().equals("true"))) &&
                 (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(now)) ) {
             logger.info("Querying database");
-            firstRun = false;
+
             DbLastQueryTime = Instant.now();
+
+            // UPdate the iconDatabase on the first run
+            iconService.updateIcons();
 
             // Get all results in the Database
             resultArray = new JSONArray();
@@ -105,20 +151,23 @@ public class WebserviceController {
                 resultArray.put(e.getEntityJson());
             }
 
+            firstRun = false;
         } else {
             logger.severe("Using Cached data");
         }
 
         Instant scanEnd = Instant.now();
 
+
         // Determine if the icon hashmap needs to be update
-        if ( (firstRun)
-                || (IconsLastQueryTime.plusSeconds(IconsTimeoutSeconds).isBefore(now))
-                || ( (updateicons.toLowerCase().equals("true"))) &&
-                (IconsLastQueryTime.plusSeconds(IconsTimeoutForceSeconds ).isBefore(now)) )
+        if ( (IconsLastQueryTime.plusSeconds(IconsTimeoutSeconds).isBefore(now))
+                || ( (updateicons.toLowerCase().equals("true")) && (IconsLastQueryTime.plusSeconds(IconsTimeoutForceSeconds ).isBefore(now))) )
         {
-            updateIconMap = true;
+            logger.info("Updating icon database");
+            iconService.updateIcons();
         }
+
+
 
         // We are now either using cached data, or the database query has completed
         // Determine if we need to filter items before returning to client

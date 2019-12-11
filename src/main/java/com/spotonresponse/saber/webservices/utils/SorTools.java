@@ -38,7 +38,6 @@ public class SorTools {
                     if (field.toLowerCase().contains(iconEntry.getKey())) {
                         icon = mapMarkerDirectory + iconEntry.getValue();
                         found = true;
-                        logger.debug("Found icon...");
                         break;
                     }
                 }

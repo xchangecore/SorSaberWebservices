@@ -24,8 +24,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableDynamoDBRepositories(basePackageClasses = EntityRepository.class)
 public class DynamoDBConfig {
 
-    static Logger logger = LoggerFactory.getLogger(DynamoDBConfig.class);
-
+    static org.slf4j.Logger logger = LoggerFactory.getLogger(DynamoDBConfig.class);
     @Value(value = "${google.cloud.aws-uuid}")
     private String DynamoDbUUID;
 
