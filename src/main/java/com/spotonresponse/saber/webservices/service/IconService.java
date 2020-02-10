@@ -34,7 +34,6 @@ public class IconService {
             logger.info("Fetching icon database");
             while (results.hasNext()) {
                 Entity entity = results.next();
-                logger.info("Adding icon: " + entity.getString("name") + " - " + entity.getString("icon"));
                 WebserviceController.iconmap.put(entity.getString("name"), entity.getString("icon"));
             }
     }

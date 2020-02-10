@@ -87,7 +87,6 @@ public class CreateGeoJSON {
                 field = "category";
                 fielddata = checkIconKey(itemJson, field);
                 if (fielddata.length() > 1) {
-                    logger.info("Found category: " + fielddata);
                     iconquery.add(fielddata);
                 }
 
