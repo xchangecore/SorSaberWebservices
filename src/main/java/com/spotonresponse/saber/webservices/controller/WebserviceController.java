@@ -130,7 +130,7 @@ public class WebserviceController {
         // 2. The last database query is within CacheTimeoutSeconds
         // 3. nocache=true unless it is within CacheTimeoutForceSeconds - we will force cache if within just a few seconds to reduce load on DB
         logger.info("firstRun is" + firstRun);
-        logger.info("DbLastQueryTime: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
+        logger.info("DbLastQueryTime + CacheTimeout: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
         logger.info("Now:             " + now);
         logger.info("NoCache: " + nocache);
 
@@ -153,7 +153,7 @@ public class WebserviceController {
 
             firstRun = false;
         } else {
-            logger.severe("Using Cached data");
+            logger.info("Using Cached data");
         }
 
         Instant scanEnd = Instant.now();
