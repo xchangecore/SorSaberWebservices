@@ -66,38 +66,59 @@ public class CreateGeoJSON {
                     iconquery.add(fielddata);
                 }
 
-                field = "Name";
-                fielddata = checkIconKey(itemJson, field);
-                if (fielddata.length() > 1) {
-                    iconquery.add(fielddata);
+                boolean haveIcon = false;
+                if (itemJson.has("icon")) {
+                    if (itemJson.getString("icon").equals("")) {
+                        haveIcon = false;
+                    } else{
+                        haveIcon = true;
+                    }
                 }
 
-                field = "title";
-                fielddata = checkIconKey(itemJson, field);
-                if (fielddata.length() > 1) {
-                    iconquery.add(fielddata);
-                }
+                String icon = "";
+                if (haveIcon) {
+                    // Determine if this is a SOR map marker
+                    if (itemJson.getString("icon").startsWith("/MapMarkers")) {
+                        icon = "https://app.spotonresponse.com" +  itemJson.getString("icon");
+                    } else {
+                        icon = itemJson.getString("icon");
+                    }
 
-                field = "What";
-                fielddata = checkIconKey(itemJson, field);
-                if (fielddata.length() > 1) {
-                    iconquery.add(fielddata);
-                }
+                } else {
+                    field = "Name";
+                    fielddata = checkIconKey(itemJson, field);
+                    if (fielddata.length() > 1) {
+                        iconquery.add(fielddata);
+                    }
 
-                field = "category";
-                fielddata = checkIconKey(itemJson, field);
-                if (fielddata.length() > 1) {
-                    iconquery.add(fielddata);
-                }
+                    field = "title";
+                    fielddata = checkIconKey(itemJson, field);
+                    if (fielddata.length() > 1) {
+                        iconquery.add(fielddata);
+                    }
 
-                field = "Description";
-                fielddata = checkIconKey(itemJson, field);
-                if (fielddata.length() > 1) {
-                    iconquery.add(fielddata);
-                }
+                    field = "What";
+                    fielddata = checkIconKey(itemJson, field);
+                    if (fielddata.length() > 1) {
+                        iconquery.add(fielddata);
+                    }
 
-                String icon = SorTools.determineIcon(useStatus, iconquery, WebserviceController.iconmap);
+                    field = "category";
+                    fielddata = checkIconKey(itemJson, field);
+                    if (fielddata.length() > 1) {
+                        iconquery.add(fielddata);
+                    }
+
+                    field = "Description";
+                    fielddata = checkIconKey(itemJson, field);
+                    if (fielddata.length() > 1) {
+                        iconquery.add(fielddata);
+                    }
+
+                    icon = SorTools.determineIcon(useStatus, iconquery, WebserviceController.iconmap);
+                }
                 itemJson.put("icon", icon);
+
 
                 double latitude = Double.valueOf(loc[0]);
                 double longitude = Double.valueOf(loc[1]);
