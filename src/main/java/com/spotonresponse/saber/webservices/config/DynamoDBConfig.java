@@ -50,7 +50,6 @@ public class DynamoDBConfig {
                         .setKind("Credentials")
                         .setFilter(StructuredQuery.PropertyFilter.eq("UUID", DynamoDbUUID))
                         .build();
-
                 QueryResults<Entity> results = datastore.run(query);
                 Entity entity = results.next();
                 aws_access_key_id = entity.getString("username");
@@ -63,6 +62,7 @@ public class DynamoDBConfig {
 
             } catch (Exception ex) {
                 logger.error("Error: " + ex);
+                ex.printStackTrace();
 
             }
 

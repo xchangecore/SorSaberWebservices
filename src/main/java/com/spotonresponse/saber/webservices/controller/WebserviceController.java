@@ -132,7 +132,7 @@ public class WebserviceController {
         logger.info("firstRun is" + firstRun);
         logger.info("DbLastQueryTime + CacheTimeout: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
         logger.info("Now:             " + now);
-        logger.info("NoCache: " + nocache);
+        logger.info("NoCache Specified? " + nocache);
 
         if ( (firstRun)
                 || (DbLastQueryTime.plusSeconds(CacheTimeoutSeconds).isBefore(now))
@@ -201,18 +201,56 @@ public class WebserviceController {
                         Polygon bb = gb.box(lon1, lat1, lon2, lat2);
 
                         // Loop over the filtered JSONArray and get the coordinates
+                        String lat = "";
+                        String lon = "";
+                        boolean gotlatlng = false;
                         for (int c = 0; c < jsonFiltered.length(); c++) {
                             JSONObject jo = jsonFiltered.getJSONObject(c);
                             JSONObject jo_item = jo.getJSONObject("item");
-                            JSONObject where = jo_item.getJSONObject("where");
-                            JSONObject point = where.getJSONObject("Point");
-                            String lat = point.getString("pos").split(" ")[0];
-                            String lon = point.getString("pos").split(" ")[1];
+                            if (jo_item.has("where")) {
+                                JSONObject where = jo_item.getJSONObject("where");
+                                if (where.has("Point")) {
+                                    JSONObject point = where.getJSONObject("Point");
+                                    if (point.has("pos")) {
+                                        String pos = point.getString("pos");
+                                        if (pos.contains(" ")) {
+                                            String pos_array[] = point.getString("pos").split(" ");
+                                            if (pos_array.length > 0) {
+                                                lat = pos_array[0];
+                                                lon = pos_array[1];
+                                                if ((lat != null) && (lon != null)) {
+                                                    try {
+                                                        Point gbPoint = gb.point(Double.parseDouble(lon), Double.parseDouble(lat));
+                                                        if (gbPoint.within(bb)) {
+                                                            jsonBounded.put(jo);
+                                                            gotlatlng = true;
+                                                        } else {
+                                                            gotlatlng = false;
+                                                        }
 
-                            Point gbPoint = gb.point(Double.parseDouble(lon), Double.parseDouble(lat));
-                            if (gbPoint.within(bb)) {
-                                jsonBounded.put(jo);
-                            } else {
+                                                    } catch (java.lang.NumberFormatException nfe) {
+                                                        logger.info("ERROR in bounding box: POS was: " + pos);
+                                                    }
+                                                } else {
+                                                    logger.info("POS was: " + pos);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // If we didn't have a proper WHERE attribute, see if we have latlng attributes
+                            if (!gotlatlng) {
+                                if (jo_item.has("latitude") && jo_item.has("longitude")) {
+                                    lat = jo_item.getString("latitude");
+                                    lon = jo_item.getString(("longitude"));
+                                    Point gbPoint = gb.point(Double.parseDouble(lon), Double.parseDouble(lat));
+                                    if (gbPoint.within(bb)) {
+                                        jsonBounded.put(jo);
+                                    } else {
+                                    }
+                                }
                             }
                         }
 
