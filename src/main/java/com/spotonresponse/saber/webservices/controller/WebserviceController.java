@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 
 import com.spotonresponse.saber.webservices.service.FilterService;
 import com.spotonresponse.saber.webservices.service.IconService;
+import com.spotonresponse.saber.webservices.utils.CreateBrandData;
+import com.spotonresponse.saber.webservices.utils.CreateMapData;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -99,7 +101,6 @@ public class WebserviceController {
         jo.put("status", message);
         return jo.toString();
     }
-
 
 
     @RequestMapping(value = "/saberdata", produces = {"application/json"})
@@ -275,6 +276,26 @@ public class WebserviceController {
             JSONObject perf = null;
             JSONObject jo = null;
             switch (outputFormat) {
+                case "maponly":
+                    jsonStart = Instant.now();
+                    jo = CreateMapData.build(jsonBounded, false);
+                    jsonEnd = Instant.now();
+                    perf = new JSONObject();
+                    perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));
+                    perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
+                    jo.put("Statistics", perf);
+                    output = jo.toString();
+                    break;
+                case "brandonly":
+                    jsonStart = Instant.now();
+                    jo = CreateBrandData.build(jsonBounded, false);
+                    jsonEnd = Instant.now();
+                    perf = new JSONObject();
+                    perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));
+                    perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
+                    jo.put("Statistics", perf);
+                    output = jo.toString();
+                    break;
                 case "sor":
                     jsonStart = Instant.now();
                     jo = CreateGeoJSON.build(jsonBounded, false);

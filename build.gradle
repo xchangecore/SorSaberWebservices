@@ -8,7 +8,7 @@ apply plugin: 'io.spring.dependency-management'
 
 
 group = 'com.spotonresponse.saber'
-version = '1.5.3'
+version = '1.6.1'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -60,7 +60,7 @@ dependencies {
 
     implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
     compileOnly 'javax.interceptor:javax.interceptor-api:1.+'
-    implementation 'com.google.cloud:google-cloud-datastore:1.62.0'
+    implementation 'com.google.cloud:google-cloud-datastore:1.102.4'
     implementation 'com.vividsolutions:jts:1.11'
     implementation 'net.sf.opencsv:opencsv:2.3'
     implementation 'com.google.code.gson:gson:2.8.5'
