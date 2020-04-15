@@ -56,7 +56,8 @@ public class CreateBrandData {
 
         int items = hashBrandNames.size();
         JSONObject out = new JSONObject();
-        out.put("itemCount", items);
+        out.put("brandCount", items);
+        out.put("ioiCount", jArray.length());
         out.put("data", outputArray);
 
         return out;
