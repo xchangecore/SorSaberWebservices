@@ -16,17 +16,17 @@ public class CreateBrandData {
     static org.slf4j.Logger logger = LoggerFactory.getLogger(CreateBrandData.class);
 
 
-    public static JSONObject build(JSONArray jArray, boolean fulloutput, String arcgis) {
+    public static JSONObject build(JSONArray jArray, boolean fulloutput, int totalCount, String arcgis) {
         if (arcgis.toLowerCase().equals("true")) {
             filterforArcGis = true;
         }
-        JSONObject jo = build(jArray, fulloutput);
+        JSONObject jo = build(jArray, fulloutput, totalCount);
         return jo;
     }
 
 
 
-    public static JSONObject build(JSONArray jArray, boolean fulloutput) {
+    public static JSONObject build(JSONArray jArray, boolean fulloutput, int totalCount) {
 
         JSONArray outputArray = new JSONArray();
 
@@ -57,7 +57,8 @@ public class CreateBrandData {
         int items = hashBrandNames.size();
         JSONObject out = new JSONObject();
         out.put("brandCount", items);
-        out.put("ioiCount", jArray.length());
+        out.put("selectedCount", jArray.length());
+        out.put("totalCount", jArray.length());
         out.put("data", outputArray);
 
         return out;

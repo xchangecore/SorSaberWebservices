@@ -42,6 +42,8 @@ public class WebserviceController {
     @Autowired
     private IconService iconService;
 
+    private int totalCount = 0;
+
     // Caching parameters
     private long CacheTimeoutSeconds = 300; // 5 minutes
 
@@ -173,6 +175,9 @@ public class WebserviceController {
         // We are now either using cached data, or the database query has completed
         // Determine if we need to filter items before returning to client
         JSONArray jsonFiltered = resultArray;
+        totalCount = resultArray.length();
+
+
         if(!allParams.isEmpty()){
             jsonFiltered = filterService.filter(resultArray, allParams);
         }
@@ -288,7 +293,7 @@ public class WebserviceController {
                     break;
                 case "brandonly":
                     jsonStart = Instant.now();
-                    jo = CreateBrandData.build(jsonBounded, false);
+                    jo = CreateBrandData.build(jsonBounded, false, totalCount);
                     jsonEnd = Instant.now();
                     perf = new JSONObject();
                     perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));
