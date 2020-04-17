@@ -42,7 +42,7 @@ public class WebserviceController {
     @Autowired
     private IconService iconService;
 
-    private int totalCount = 0;
+    public static int totalCount = 0;
 
     // Caching parameters
     private long CacheTimeoutSeconds = 300; // 5 minutes
@@ -93,11 +93,15 @@ public class WebserviceController {
             for (Entity e : repo.findAll()) {
                 resultArray.put(e.getEntityJson());
             }
+            // Get a total count of items in the database
+            totalCount = resultArray.length();
             message = resultArray.length() + " records have been updated";
 
         } else {
             message = "Unable to force cache update, timer has not expired";
         }
+
+
 
         logger.info(message);
         jo.put("status", message);
@@ -154,6 +158,10 @@ public class WebserviceController {
                 resultArray.put(e.getEntityJson());
             }
 
+            // Get a total count of items in the database
+            totalCount = resultArray.length();
+            logger.info("Record count: " + totalCount);
+
             firstRun = false;
         } else {
             logger.info("Using Cached data");
@@ -171,11 +179,10 @@ public class WebserviceController {
         }
 
 
-
         // We are now either using cached data, or the database query has completed
         // Determine if we need to filter items before returning to client
         JSONArray jsonFiltered = resultArray;
-        totalCount = resultArray.length();
+
 
 
         if(!allParams.isEmpty()){
@@ -293,7 +300,7 @@ public class WebserviceController {
                     break;
                 case "brandonly":
                     jsonStart = Instant.now();
-                    jo = CreateBrandData.build(jsonBounded, false, totalCount);
+                    jo = CreateBrandData.build(jsonBounded, false);
                     jsonEnd = Instant.now();
                     perf = new JSONObject();
                     perf.put("DB Scan/Transfer Time", Duration.between(scanStart, scanEnd));

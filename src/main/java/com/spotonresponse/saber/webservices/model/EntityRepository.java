@@ -1,6 +1,7 @@
 package com.spotonresponse.saber.webservices.model;
 
 
+import com.amazonaws.services.dynamodbv2.document.Item;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
 
@@ -14,5 +15,7 @@ public interface EntityRepository extends CrudRepository<Entity, EntityKey> {
     List<Entity> findAllByTitle(String title);
 
     Entity findByKey(EntityKey key);
+
 }
+
 

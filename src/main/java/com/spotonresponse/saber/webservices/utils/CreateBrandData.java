@@ -1,6 +1,7 @@
 package com.spotonresponse.saber.webservices.utils;
 
 
+import com.spotonresponse.saber.webservices.controller.WebserviceController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
@@ -16,17 +17,17 @@ public class CreateBrandData {
     static org.slf4j.Logger logger = LoggerFactory.getLogger(CreateBrandData.class);
 
 
-    public static JSONObject build(JSONArray jArray, boolean fulloutput, int totalCount, String arcgis) {
+    public static JSONObject build(JSONArray jArray, boolean fulloutput, String arcgis) {
         if (arcgis.toLowerCase().equals("true")) {
             filterforArcGis = true;
         }
-        JSONObject jo = build(jArray, fulloutput, totalCount);
+        JSONObject jo = build(jArray, fulloutput);
         return jo;
     }
 
 
 
-    public static JSONObject build(JSONArray jArray, boolean fulloutput, int totalCount) {
+    public static JSONObject build(JSONArray jArray, boolean fulloutput) {
 
         JSONArray outputArray = new JSONArray();
 
@@ -57,10 +58,9 @@ public class CreateBrandData {
         int items = hashBrandNames.size();
         JSONObject out = new JSONObject();
         out.put("brandCount", items);
+        out.put("totalCount", WebserviceController.totalCount);
         out.put("selectedCount", jArray.length());
-        out.put("totalCount", jArray.length());
         out.put("data", outputArray);
-
         return out;
     }
 
