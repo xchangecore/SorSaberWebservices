@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.spotonresponse.saber.webservices.service.field_mapping.FieldMappingService;
 import com.spotonresponse.saber.webservices.service.FilterService;
 import com.spotonresponse.saber.webservices.service.IconService;
 import com.spotonresponse.saber.webservices.utils.CreateBrandData;
@@ -41,6 +42,9 @@ public class WebserviceController {
 
     @Autowired
     private IconService iconService;
+
+    @Autowired
+    private FieldMappingService fieldMappingService;
 
     public static int totalCount = 0;
 
@@ -120,10 +124,11 @@ public class WebserviceController {
         String arcgis = allParams.getOrDefault("arcgis", "false");
         String topLeft = allParams.getOrDefault("topLeft", "");
         String bottomRight = allParams.getOrDefault("bottomRight", "");
+        String fieldMap = allParams.getOrDefault("fieldMap", "");
 
         // Remove the non-filter parameters from the map, and let the rest be
         // treated as filter parameters hence-forth.
-        Arrays.asList("nocache", "updateicons", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
+        Arrays.asList("fieldMap", "nocache", "updateicons", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
 
 
         // Get the current time
@@ -320,6 +325,10 @@ public class WebserviceController {
                     break;
                 case "geojson":
                     jsonStart = Instant.now();
+
+                    // do field mapping
+                    jsonBounded = fieldMappingService.doFieldMapping(jsonBounded, fieldMap);
+
                     if (!arcgis.isEmpty()) {
                         jo = CreateGeoJSON.build(jsonBounded, true, arcgis);
                     } else {

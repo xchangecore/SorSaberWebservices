@@ -18,6 +18,7 @@ import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRep
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 
@@ -84,6 +85,7 @@ public class DynamoDBConfig {
 
 
     @Bean
+    @Primary
     public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB) {
         return new DynamoDBMapper(amazonDynamoDB);
     }
