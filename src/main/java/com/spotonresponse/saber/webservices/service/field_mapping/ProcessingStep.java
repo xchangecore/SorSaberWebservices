@@ -18,6 +18,10 @@ public class ProcessingStep {
         propertiesToBeIncluded = new JSONObject();
     }
 
+    public JSONObject getInputObject(){
+        return inputObject;
+    }
+
     public void setExplicitInclusionSpecified(boolean explicitInclusionSpecified) {
         this.explicitInclusionSpecified = explicitInclusionSpecified;
     }

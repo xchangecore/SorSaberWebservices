@@ -6,13 +6,16 @@ import com.spotonresponse.saber.webservices.service.field_mapping.ProcessingStep
  * Class to encapsulate a mapping rule.
  */
 public abstract class Rule {
-    private String ruleString;
+    private final String ruleString;
+    protected final RulePredicate rulePredicate;
 
     /**
      * @param ruleString The rules string for the rule e.g a=b.
+     * @param predicate The predicate that determines whether a rule can be executed or not.
      */
-    public Rule(String ruleString){
+    public Rule(String ruleString, RulePredicate predicate){
         this.ruleString = ruleString;
+        rulePredicate = predicate;
     }
 
     /**
