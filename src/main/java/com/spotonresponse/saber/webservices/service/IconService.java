@@ -13,7 +13,7 @@ import static java.time.Instant.*;
 
 @Service
 public class IconService {
-    private static final Logger logger = Logger.getLogger(WebserviceController.class.getName());
+    private static final Logger logger = Logger.getLogger(IconService.class.getName());
 
     public void updateIcons() {
 

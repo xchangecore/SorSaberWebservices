@@ -156,8 +156,13 @@ public class CreateGeoJSON {
                     }
 
                 } else {
-                    props.put("title", itemJson.get("title"));
-                    //props.put("md5hash", itemJson.get("md5hash"));
+                    if (itemJson.has("title")) {
+                        props.put("title", itemJson.get("title"));
+                    } else {
+                        if (itemJson.has("name")) {
+                            props.put("title", itemJson.get("name"));
+                        }
+                    }
                     props.put("icon", itemJson.get("icon"));
                     props.put("sorFetchData", "true");
                 }
@@ -168,6 +173,7 @@ public class CreateGeoJSON {
 
             } catch (Exception ex) {
                 logger.warn("Unable to add item to geoJSON: " + ex);
+
                 logger.error(ex.getMessage());
             }
 

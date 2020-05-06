@@ -4,9 +4,7 @@ import static com.spotonresponse.saber.webservices.utils.Util.isValidCoordinate;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 import com.spotonresponse.saber.webservices.service.field_mapping.FieldMappingService;
@@ -30,6 +28,9 @@ import com.spotonresponse.saber.webservices.model.EntityRepository;
 import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
 import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 public class WebserviceController {
@@ -49,13 +50,13 @@ public class WebserviceController {
     public static int totalCount = 0;
 
     // Caching parameters
-    private long CacheTimeoutSeconds = 300; // 5 minutes
+    private long CacheTimeoutSeconds = 60 * 60; // minutes * 60 (convert to seconds)
+
 
     // The number of seconds to wait to update cache even if force is specified
     private int CacheTimeoutForceSeconds = 10;
 
     private Instant DbLastQueryTime = Instant.now();
-    private boolean firstRun = true;
     private JSONArray resultArray = null;
     private static final Logger logger = Logger.getLogger(WebserviceController.class.getName());
     private String output = "No Data";
@@ -70,9 +71,69 @@ public class WebserviceController {
     public static long IconsTimeoutForceSeconds = 300;  // 5 minutes
 
 
+    private boolean timerstate = false;
+    private Timer timer;
+
+    // Initialize data at startup
+    @PostConstruct
+    private void init() {
+        logger.info("AppInitializator initialization logic ...");
+
+        TimerTask reloadDataTask = new TimerTask() {
+            public void run() {
+                timerstate=true;
+                getDataForCache();
+                iconService.updateIcons();
+            }
+        };
+
+
+        // If this is the first run - get data
+        if (!timerstate) {
+            // Update the iconDatabase on the first run
+            iconService.updateIcons();
+
+            // Get data from the database
+            getDataForCache();
+        }
+
+        if (timerstate) {
+            timerstate = false;
+            timer.purge();
+            timer.cancel();
+        }
+
+        // Start thread to update data as specified by the cacheTimeout
+        timer = new Timer();
+        timer.scheduleAtFixedRate(reloadDataTask, 0, CacheTimeoutSeconds);
+
+    }
+
+
+    private void getDataForCache() {
+        logger.info("Fetching data from DynamoDB...");
+
+        DbLastQueryTime = Instant.now();
+
+        // Get all results in the Database
+        JSONArray ra = new JSONArray();
+        for (Entity e : repo.findAll()) {
+            ra.put(e.getEntityJson());
+        }
+
+        Instant finishQuery = Instant.now();
+
+        logger.info("Done in " + Duration.between(DbLastQueryTime, finishQuery).getSeconds() + " seconds.");
+        resultArray = ra;
+        // Get a total count of items in the database
+        totalCount = resultArray.length();
+        logger.info("Record count: " + totalCount);
+    }
+
+
     // Request to update icon map
     @RequestMapping(value = "/updateicons", produces = {"application/json"})
-    @CrossOrigin
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String updateIcons(@RequestParam Map<String,String> allParams) {
         iconService.updateIcons();
         JSONObject jo = new JSONObject();
@@ -82,43 +143,36 @@ public class WebserviceController {
 
 
     // Request to update cache
-    @RequestMapping(value = "/updatecache", produces = {"application/json"})
-    @CrossOrigin
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/cacheupdate", produces = {"application/json"})
     public String updateCache(@RequestParam Map<String,String> allParams) {
-        JSONObject jo = new JSONObject();
+
+        logger.info("Request recieved to update cache");
+
         String message = "";
+        JSONObject jo = new JSONObject();
 
-        if (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(Instant.now()) ) {
-            // Reset DBLastQuery time to current instant
-            DbLastQueryTime = Instant.now();
-
-            // Get all results in the Database
-            resultArray = new JSONArray();
-            for (Entity e : repo.findAll()) {
-                resultArray.put(e.getEntityJson());
+            if (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(Instant.now()) ) {
+                message = "Cache will be updated in the background, allow a few minutes to complete";
+                init();
+            } else {
+                message = "Unable to force cache update, timer has not expired";
             }
-            // Get a total count of items in the database
-            totalCount = resultArray.length();
-            message = resultArray.length() + " records have been updated";
 
-        } else {
-            message = "Unable to force cache update, timer has not expired";
-        }
+            logger.info(message);
+            jo.put("status", message);
 
+            return jo.toString();
 
-
-        logger.info(message);
-        jo.put("status", message);
-        return jo.toString();
     }
 
 
     @RequestMapping(value = "/saberdata", produces = {"application/json"})
-    @CrossOrigin
-    public String query(@RequestParam Map<String,String> allParams) {
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public String query(@RequestParam Map<String,String> allParams, HttpServletRequest request) {
 
         // Extract the non-filter parameters, and use default values if the parameters are not specified.
-        String nocache = allParams.getOrDefault("nocache", "");
+        String nocache = allParams.getOrDefault("nnocache", "");
         String updateicons = allParams.getOrDefault("updateicons", "");
         String outputFormat = allParams.getOrDefault("outputFormat", "raw");
         String arcgis = allParams.getOrDefault("arcgis", "false");
@@ -128,67 +182,18 @@ public class WebserviceController {
 
         // Remove the non-filter parameters from the map, and let the rest be
         // treated as filter parameters hence-forth.
-        Arrays.asList("fieldMap", "nocache", "updateicons", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
+        Arrays.asList("fieldMap", "nnocache", "nocache", "updateicons", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
 
+        logger.info("Request recieved from: " + request.getRemoteAddr() + " - producing output");
 
         // Get the current time
         Instant now = Instant.now();
         Instant scanStart = Instant.now();
-
-        // Determine if we should just used cached data instead of
-        // re-querying the database
-        // Query the database if:
-        // 1. This is the first run
-        // 2. The last database query is within CacheTimeoutSeconds
-        // 3. nocache=true unless it is within CacheTimeoutForceSeconds - we will force cache if within just a few seconds to reduce load on DB
-        logger.info("firstRun is" + firstRun);
-        logger.info("DbLastQueryTime + CacheTimeout: " + DbLastQueryTime.plusSeconds(CacheTimeoutSeconds));
-        logger.info("Now:             " + now);
-        logger.info("NoCache Specified? " + nocache);
-
-        if ( (firstRun)
-                || (DbLastQueryTime.plusSeconds(CacheTimeoutSeconds).isBefore(now))
-                || ( (nocache.toLowerCase().equals("true"))) &&
-                (DbLastQueryTime.plusSeconds(CacheTimeoutForceSeconds).isBefore(now)) ) {
-            logger.info("Querying database");
-
-            DbLastQueryTime = Instant.now();
-
-            // UPdate the iconDatabase on the first run
-            iconService.updateIcons();
-
-            // Get all results in the Database
-            resultArray = new JSONArray();
-            for (Entity e : repo.findAll()) {
-                resultArray.put(e.getEntityJson());
-            }
-
-            // Get a total count of items in the database
-            totalCount = resultArray.length();
-            logger.info("Record count: " + totalCount);
-
-            firstRun = false;
-        } else {
-            logger.info("Using Cached data");
-        }
-
         Instant scanEnd = Instant.now();
-
-
-        // Determine if the icon hashmap needs to be update
-        if ( (IconsLastQueryTime.plusSeconds(IconsTimeoutSeconds).isBefore(now))
-                || ( (updateicons.toLowerCase().equals("true")) && (IconsLastQueryTime.plusSeconds(IconsTimeoutForceSeconds ).isBefore(now))) )
-        {
-            logger.info("Updating icon database");
-            iconService.updateIcons();
-        }
-
 
         // We are now either using cached data, or the database query has completed
         // Determine if we need to filter items before returning to client
         JSONArray jsonFiltered = resultArray;
-
-
 
         if(!allParams.isEmpty()){
             jsonFiltered = filterService.filter(resultArray, allParams);
@@ -352,7 +357,6 @@ public class WebserviceController {
         } else {
             output = error;
         }
-
 
         return output;
     }

@@ -39,7 +39,9 @@ public class CreateBrandData {
                 JSONObject properties = jArray.getJSONObject(i);
                 itemJson = properties.getJSONObject("item");
 
-                brandNames.add(itemJson.getString("Brand Name"));
+                if (itemJson.has("Brand Name")) {
+                    brandNames.add(itemJson.getString("Brand Name"));
+                }
 
             } catch (Exception ex) {
                 logger.warn("Unable to add item to brand name output: " + ex);
