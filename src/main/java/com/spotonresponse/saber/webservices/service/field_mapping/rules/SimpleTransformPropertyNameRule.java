@@ -10,8 +10,8 @@ public final class SimpleTransformPropertyNameRule extends Rule{
     private String oldPropertyName;
     private String newPropertyName;
 
-    public SimpleTransformPropertyNameRule(String ruleString) {
-        super(ruleString);
+    public SimpleTransformPropertyNameRule(String ruleString, String predicateString) {
+        super(ruleString, new RulePredicate(predicateString));
         String[] rulesStringSplit = ruleString.split("=");
         oldPropertyName = rulesStringSplit[0].trim();
         newPropertyName = rulesStringSplit[1].trim();
@@ -19,6 +19,11 @@ public final class SimpleTransformPropertyNameRule extends Rule{
 
     @Override
     public void apply(ProcessingStep processingStep) {
+        // check to ensure the rule can be applied
+        if(!super.rulePredicate.canApply(processingStep)){
+            return;
+        }
+
         processingStep.includeProperty(oldPropertyName, newPropertyName);
     }
 }

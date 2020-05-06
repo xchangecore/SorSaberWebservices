@@ -10,8 +10,8 @@ public final class NewPropertyWithStaticValueRule extends Rule{
     private final String newPropertyName;
     private final String staticValue;
 
-    public NewPropertyWithStaticValueRule(String ruleString) {
-        super(ruleString);
+    public NewPropertyWithStaticValueRule(String ruleString, String predicateString) {
+        super(ruleString, new RulePredicate(predicateString));
         String[] ruleStringParts = ruleString.split("~=");
         newPropertyName = ruleStringParts[0].trim();
         staticValue = ruleStringParts[1].trim();
@@ -19,6 +19,12 @@ public final class NewPropertyWithStaticValueRule extends Rule{
 
     @Override
     public void apply(ProcessingStep processingStep) {
+        // check to ensure the rule can be applied
+        if(!super.rulePredicate.canApply(processingStep)){
+            return;
+        }
+
         processingStep.createStaticProperty(newPropertyName, staticValue);
+        processingStep.includeProperty(newPropertyName);
     }
 }

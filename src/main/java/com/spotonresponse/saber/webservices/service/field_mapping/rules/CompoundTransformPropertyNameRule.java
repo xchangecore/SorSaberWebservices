@@ -15,8 +15,9 @@ public final class CompoundTransformPropertyNameRule extends Rule{
     private Set<String> oldPropertyNamesList;
     private String newPropertyName;
 
-    public CompoundTransformPropertyNameRule(String ruleString) {
-        super(ruleString);
+    public CompoundTransformPropertyNameRule(String ruleString, String predicateString) {
+        super(ruleString, new RulePredicate(predicateString));
+
         String[] rulesStringSplit = ruleString.split("=");
         String[] oldPropertyNamesSplit = rulesStringSplit[0].split("~");
         oldPropertyNamesList =
@@ -28,6 +29,11 @@ public final class CompoundTransformPropertyNameRule extends Rule{
 
     @Override
     public void apply(ProcessingStep processingStep) {
+        // check to ensure the rule can be applied
+        if(!super.rulePredicate.canApply(processingStep)){
+            return;
+        }
+
         String firstMatchingOldKey = null;
         for (Iterator<String> it = processingStep.getInputObjectKeys(); it.hasNext(); ) {
             String key = it.next();
