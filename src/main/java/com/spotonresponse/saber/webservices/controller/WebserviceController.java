@@ -70,6 +70,8 @@ public class WebserviceController {
     public static long IconsTimeoutForceSeconds = 300;  // 5 minutes
 
 
+    private boolean dbFetchRunning = false;
+
     private boolean timerstate = false;
     private Timer timer;
 
@@ -104,29 +106,36 @@ public class WebserviceController {
 
         // Start thread to update data as specified by the cacheTimeout
         timer = new Timer();
-        timer.scheduleAtFixedRate(reloadDataTask, 0, CacheTimeoutSeconds);
-
+        timer.scheduleAtFixedRate(reloadDataTask, 0, CacheTimeoutSeconds*1000);
     }
 
 
+
     private void getDataForCache() {
-        logger.info("Fetching data from DynamoDB...");
+        if (dbFetchRunning) {
+            logger.info("Tried to run DynamoDB fetch, it was already running");
+        } else {
+            dbFetchRunning = true;
+            logger.info("Fetching data from DynamoDB...");
 
-        DbLastQueryTime = Instant.now();
+            DbLastQueryTime = Instant.now();
 
-        // Get all results in the Database
-        JSONArray ra = new JSONArray();
-        for (Entity e : repo.findAll()) {
-            ra.put(e.getEntityJson());
+            // Get all results in the Database
+            JSONArray ra = new JSONArray();
+            for (Entity e : repo.findAll()) {
+                ra.put(e.getEntityJson());
+            }
+
+            Instant finishQuery = Instant.now();
+
+            logger.info("Done in " + Duration.between(DbLastQueryTime, finishQuery).getSeconds() + " seconds.");
+            resultArray = ra;
+            // Get a total count of items in the database
+            totalCount = resultArray.length();
+            logger.info("Record count: " + totalCount);
+
+            dbFetchRunning = false;
         }
-
-        Instant finishQuery = Instant.now();
-
-        logger.info("Done in " + Duration.between(DbLastQueryTime, finishQuery).getSeconds() + " seconds.");
-        resultArray = ra;
-        // Get a total count of items in the database
-        totalCount = resultArray.length();
-        logger.info("Record count: " + totalCount);
     }
 
 
