@@ -44,7 +44,7 @@ public class RulePredicate {
                 String value = inputObject.get(leftOperand).toString().trim();
                 return Stream.of(rightOperandComponents)
                         .map(String::trim)
-                        .anyMatch(value::equals);
+                        .anyMatch(value::contains);
             }
 
             if(rightOperandComponents.length == 1 && leftOperandComponents.length > 1){
@@ -59,13 +59,13 @@ public class RulePredicate {
                         .map(String::trim)
                         .anyMatch(key -> {
 
-                    if(!inputObject.has(key)){
-                        return false;
-                    }
+                            if(!inputObject.has(key)){
+                                return false;
+                            }
 
-                    String value = inputObject.get(key).toString().trim();
-                    return value.equals(rightOperand);
-                });
+                            String value = inputObject.get(key).toString().trim();
+                            return value.contains(rightOperand);
+                        });
             }
 
         }
@@ -89,7 +89,7 @@ public class RulePredicate {
             }
 
             String value = inputObject.get(leftOperand).toString().trim();
-            return !value.equals(rightOperand);
+            return !value.contains(rightOperand);
         }
 
         if(predicateString.contains("=")){
@@ -106,7 +106,7 @@ public class RulePredicate {
             }
 
             String value = inputObject.get(leftOperand).toString();
-            return value.equals(rightOperand);
+            return value.contains(rightOperand);
         }
 
         return inputObject.has(predicateString.trim());
