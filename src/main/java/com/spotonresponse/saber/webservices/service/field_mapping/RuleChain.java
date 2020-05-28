@@ -4,7 +4,9 @@ import com.spotonresponse.saber.webservices.service.field_mapping.rules.Rule;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class RuleChain {
@@ -16,7 +18,7 @@ public class RuleChain {
                 .replace("(", "")
                 .replace(")", "");
 
-        String[] ruleStrings = ruleChainInput.split(",");
+        List<String> ruleStrings = parseRules(ruleChainInput);
         for(String ruleString : ruleStrings){
             try {
                 Rule rule = RuleFactory.createRule(ruleString);
@@ -25,6 +27,39 @@ public class RuleChain {
                 logger.severe(e.getMessage());
             }
         }
+    }
+
+    private List<String> parseRules(String rulesString){
+        List<String> rules = new ArrayList<>();
+
+        Function<StringBuilder, String> builderToString = stringBuilder -> {
+            String stringRpr = stringBuilder.toString();
+            return stringRpr.replace("\"", "").trim();
+        };
+
+        StringBuilder ruleBuilder = new StringBuilder();
+        for (char c : rulesString.toCharArray()) {
+            if(c == ','){
+                long quotesNum = ruleBuilder.toString()
+                        .chars()
+                        .filter(it -> it == '\"')
+                        .count();
+
+                if(quotesNum % 2 == 0){
+                    rules.add(builderToString.apply(ruleBuilder));
+                    ruleBuilder = new StringBuilder();
+                    continue;
+                }
+            }
+
+            ruleBuilder.append(c);
+        }
+
+        if(!ruleBuilder.toString().isEmpty()){
+            rules.add(builderToString.apply(ruleBuilder));
+        }
+
+        return rules;
     }
 
     public JSONObject applyRules(JSONObject inputObject){
