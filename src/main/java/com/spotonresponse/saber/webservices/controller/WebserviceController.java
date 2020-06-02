@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 
+import com.spotonresponse.saber.webservices.service.HtmlOutputService;
 import com.spotonresponse.saber.webservices.service.field_mapping.FieldMappingService;
 import com.spotonresponse.saber.webservices.service.FilterService;
 import com.spotonresponse.saber.webservices.service.IconService;
@@ -18,6 +19,8 @@ import org.json.XML;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,6 +49,9 @@ public class WebserviceController {
 
     @Autowired
     private FieldMappingService fieldMappingService;
+
+    @Autowired
+    private HtmlOutputService htmlOutputService;
 
     public static int totalCount = 0;
 
@@ -175,9 +181,9 @@ public class WebserviceController {
     }
 
 
-    @RequestMapping(value = "/saberdata", produces = {"application/json"})
+    @RequestMapping(value = "/saberdata")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String query(@RequestParam Map<String,String> allParams, HttpServletRequest request) {
+    public ResponseEntity<String> query(@RequestParam Map<String,String> allParams, HttpServletRequest request) {
 
         // Extract the non-filter parameters, and use default values if the parameters are not specified.
         String nocache = allParams.getOrDefault("nnocache", "");
@@ -355,6 +361,11 @@ public class WebserviceController {
                     jo.put("Statistics", perf);
                     output = jo.toString();
                     break;
+                case "html":
+                    // do field mapping before rendering in HTML
+                    jsonBounded = fieldMappingService.doFieldMapping(jsonBounded, fieldMap);
+                    output =  htmlOutputService.toHTML(jsonBounded);
+                    break;
                 case "xml":
                     output = XML.toString(jsonBounded);
                     break;
@@ -366,7 +377,16 @@ public class WebserviceController {
             output = error;
         }
 
-        return output;
+        String contentType = "application/json";
+        if(outputFormat.equalsIgnoreCase("html")){
+            contentType = "text/html";
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", contentType);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(output);
     }
     
 
