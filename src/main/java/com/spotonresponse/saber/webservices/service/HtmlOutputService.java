@@ -42,6 +42,9 @@ public class HtmlOutputService {
     private String jsonObjectToHTML(JSONObject jsonObject){
         StringBuilder propertyBuilder = new StringBuilder();
         for (String key : jsonObject.keySet()) {
+            if(key.trim().equals("where")){
+                continue;
+            }
             Object value = jsonObject.get(key);
             String valueStr = value == null ? "null" : value.toString();
             String keyValuePropertyHTML = keyValueToHTML(key, valueStr);
