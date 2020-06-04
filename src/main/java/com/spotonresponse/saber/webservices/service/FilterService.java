@@ -103,10 +103,10 @@ public class FilterService {
     private boolean jsonObjectValueMatchesAnyFilterValue(String jsonObjectValue, List<String> filterValues){
         return filterValues.stream().anyMatch(filterValue -> {
             if(filterValue.startsWith("!")){
-                boolean contains = jsonObjectValue.toLowerCase().contains(filterValue.substring(1));
+                boolean contains = jsonObjectValue.toLowerCase().contains(filterValue.substring(1).toLowerCase());
                 return !contains;
             } else {
-                return jsonObjectValue.toLowerCase().contains(filterValue);
+                return jsonObjectValue.toLowerCase().contains(filterValue.toLowerCase());
             }
         });
     }
