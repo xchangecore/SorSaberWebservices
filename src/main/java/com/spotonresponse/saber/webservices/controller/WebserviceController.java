@@ -345,7 +345,8 @@ public class WebserviceController {
                     jsonStart = Instant.now();
 
                     // do field mapping
-                    jsonBounded = fieldMappingService.doFieldMapping(jsonBounded, fieldMap);
+                    List<String> mandatoryProperties = Collections.singletonList("where");
+                    jsonBounded = fieldMappingService.doFieldMapping(jsonBounded, fieldMap, mandatoryProperties);
 
                     if (!arcgis.isEmpty()) {
                         jo = CreateGeoJSON.build(jsonBounded, true, arcgis);

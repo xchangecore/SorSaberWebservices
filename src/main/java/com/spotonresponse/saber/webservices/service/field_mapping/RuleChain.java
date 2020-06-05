@@ -62,9 +62,9 @@ public class RuleChain {
         return rules;
     }
 
-    public JSONObject applyRules(JSONObject inputObject){
+    public JSONObject applyRules(JSONObject inputObject, List<String> mandatoryProperties){
         // create a processing step
-        ProcessingStep processingStep = new ProcessingStep(inputObject);
+        ProcessingStep processingStep = new ProcessingStep(inputObject, mandatoryProperties);
 
         // apply the rules, with each rule taking in the processing step the previous one worked on.
         rules.forEach(rule -> rule.apply(processingStep));

@@ -11,11 +11,13 @@ public class ProcessingStep {
     private final JSONObject propertiesToBeIncluded;
     private final List<String> propertiesToBeExcluded;
     private boolean explicitInclusionSpecified;
+    private final List<String> mandatoryProperties;
 
-    public ProcessingStep(JSONObject inputObject) {
+    public ProcessingStep(JSONObject inputObject, List<String> mandatoryProperties) {
         this.inputObject = inputObject;
         propertiesToBeExcluded = new LinkedList<>();
         propertiesToBeIncluded = new JSONObject();
+        this.mandatoryProperties = mandatoryProperties;
     }
 
     public JSONObject getInputObject(){
@@ -69,8 +71,14 @@ public class ProcessingStep {
 
 
         if(isExplicitInclusionSpecified()){
-            // the 'where' property *must* be included for geojson output to work
-            outputObject.put("where", inputObject.get("where"));
+            mandatoryProperties.forEach(mandatoryProperty -> {
+                if(inputObject.has(mandatoryProperty)){
+                    // the mandatory properties *must* be included no matter what.
+                    outputObject.put(mandatoryProperty, inputObject.get(mandatoryProperty));
+                }
+            });
+
+
             return outputObject;
         }
 

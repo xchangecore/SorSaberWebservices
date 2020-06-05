@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -16,7 +18,7 @@ public class FieldMappingService {
      * @return Processed JSON data output based on {@param fieldMappingInfo} used to carry out
      * field mapping.
      */
-    public JSONArray doFieldMapping(JSONArray rawDataInput, String fieldMappingInfo){
+    public JSONArray doFieldMapping(JSONArray rawDataInput, String fieldMappingInfo, List<String> mandatoryProperties){
         if(fieldMappingInfo.isEmpty()){
             return rawDataInput;
         }
@@ -28,7 +30,7 @@ public class FieldMappingService {
             JSONObject clonedObject = new JSONObject(originalObject.toMap());
 
             JSONObject itemToBeProcessed = clonedObject.getJSONObject("item");
-            JSONObject processedItem = ruleChain.applyRules(itemToBeProcessed);
+            JSONObject processedItem = ruleChain.applyRules(itemToBeProcessed, mandatoryProperties);
             clonedObject.put("item", processedItem);
             dataOutput.put(clonedObject);
         }
@@ -36,5 +38,7 @@ public class FieldMappingService {
         return dataOutput;
     }
 
-
+    public JSONArray doFieldMapping(JSONArray rawDataInput, String fieldMappingInfo){
+        return doFieldMapping(rawDataInput, fieldMappingInfo, Collections.emptyList());
+    }
 }
