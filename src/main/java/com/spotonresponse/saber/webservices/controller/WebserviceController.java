@@ -10,8 +10,7 @@ import java.util.logging.Logger;
 import com.spotonresponse.saber.webservices.service.field_mapping.FieldMappingService;
 import com.spotonresponse.saber.webservices.service.FilterService;
 import com.spotonresponse.saber.webservices.service.IconService;
-import com.spotonresponse.saber.webservices.utils.CreateBrandData;
-import com.spotonresponse.saber.webservices.utils.CreateMapData;
+import com.spotonresponse.saber.webservices.utils.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -25,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spotonresponse.saber.webservices.model.Entity;
 import com.spotonresponse.saber.webservices.model.EntityRepository;
-import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
-import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -358,7 +355,14 @@ public class WebserviceController {
                 case "xml":
                     output = XML.toString(jsonBounded);
                     break;
-
+                case "kml":
+                    if (!arcgis.isEmpty()) {
+                        jo = CreateGeoJSON.build(jsonBounded, true, arcgis);
+                    } else {
+                        jo = CreateGeoJSON.build(jsonBounded, true);
+                    }
+                    output = CreateKML.build(jo);
+                    break;
                 default:
                     output = jsonBounded.toString();
             }
