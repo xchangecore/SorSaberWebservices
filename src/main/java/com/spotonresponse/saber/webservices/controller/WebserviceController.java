@@ -363,14 +363,6 @@ public class WebserviceController {
                 case "xml":
                     output = XML.toString(jsonBounded);
                     break;
-                case "kml":
-                    if (!arcgis.isEmpty()) {
-                        jo = CreateGeoJSON.build(jsonBounded, true, arcgis);
-                    } else {
-                        jo = CreateGeoJSON.build(jsonBounded, true);
-                    }
-                    output = CreateKML.build(jo);
-                    break;
                 default:
                     output = jsonBounded.toString();
             }
