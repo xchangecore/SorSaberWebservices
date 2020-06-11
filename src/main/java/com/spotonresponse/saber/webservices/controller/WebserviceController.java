@@ -380,9 +380,9 @@ public class WebserviceController {
         }
 
         String contentType = "application/json";
-        if(outputFormat.equalsIgnoreCase("html")){
+        if(outputFormat.equals("html")){
             contentType = "text/html";
-        } else if(outputFormat.equalsIgnoreCase("kml")){
+        } else if(outputFormat.equals("kml") || outputFormat.equals("xml")){
             contentType = "text/xml";
         }
 
