@@ -10,14 +10,14 @@ import java.util.logging.Logger;
 import com.spotonresponse.saber.webservices.service.field_mapping.FieldMappingService;
 import com.spotonresponse.saber.webservices.service.FilterService;
 import com.spotonresponse.saber.webservices.service.IconService;
-import com.spotonresponse.saber.webservices.utils.CreateBrandData;
-import com.spotonresponse.saber.webservices.utils.CreateMapData;
+import com.spotonresponse.saber.webservices.utils.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spotonresponse.saber.webservices.model.Entity;
 import com.spotonresponse.saber.webservices.model.EntityRepository;
-import com.spotonresponse.saber.webservices.utils.CreateGeoJSON;
-import com.spotonresponse.saber.webservices.utils.GeometryBuilder;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +44,9 @@ public class WebserviceController {
 
     @Autowired
     private FieldMappingService fieldMappingService;
+
+    @Value("${kml.service.url}")
+    private String kmlServiceUrl;
 
     public static int totalCount = 0;
 
@@ -337,6 +338,7 @@ public class WebserviceController {
                     output = jo.toString();
                     break;
                 case "geojson":
+                case "kml":
                     jsonStart = Instant.now();
 
                     // do field mapping
@@ -354,6 +356,9 @@ public class WebserviceController {
                     perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
                     jo.put("Statistics", perf);
                     output = jo.toString();
+                    if(outputFormat.equals("kml")){
+                        output = CreateKML.build(output, kmlServiceUrl);
+                    }
                     break;
                 case "xml":
                     output = XML.toString(jsonBounded);
