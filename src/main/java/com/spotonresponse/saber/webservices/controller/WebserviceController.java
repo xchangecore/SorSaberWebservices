@@ -54,7 +54,7 @@ public class WebserviceController {
     public static int totalCount = 0;
 
     // Caching parameters
-    private long CacheTimeoutSeconds = 3 * 60 * 60; // minutes * 60 (convert to seconds)
+    private long CacheTimeoutSeconds = 8 * 60 * 60; // minutes * 60 (convert to seconds)
 
     // The number of seconds to wait to update cache even if force is specified
     private int CacheTimeoutForceSeconds = 10;
