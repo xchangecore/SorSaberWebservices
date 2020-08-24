@@ -54,10 +54,10 @@ public class WebserviceController {
     public static int totalCount = 0;
 
     // Caching parameters
-    private long CacheTimeoutSeconds = 8 * 60 * 60; // minutes * 60 (convert to seconds)
+    private final long CacheTimeoutSeconds = 8 * 60 * 60; // minutes * 60 (convert to seconds)
 
     // The number of seconds to wait to update cache even if force is specified
-    private int CacheTimeoutForceSeconds = 10;
+    private final int CacheTimeoutForceSeconds = 10;
 
     private Instant DbLastQueryTime = Instant.now();
     private JSONArray resultArray = null;
@@ -133,7 +133,15 @@ public class WebserviceController {
             Instant finishQuery = Instant.now();
 
             logger.info("Done in " + Duration.between(DbLastQueryTime, finishQuery).getSeconds() + " seconds.");
+            resultArray = null;
             resultArray = ra;
+            ra = null;
+
+            logger.info("Total memory: " + Runtime.getRuntime().totalMemory());
+            logger.info("Meg used=" + (Runtime.getRuntime().totalMemory() -
+                    Runtime.getRuntime().freeMemory()) / (1000 * 1000) + "M");
+
+
             // Get a total count of items in the database
             totalCount = resultArray.length();
             logger.info("Record count: " + totalCount);
@@ -249,7 +257,7 @@ public class WebserviceController {
                                     if (point.has("pos")) {
                                         String pos = point.getString("pos");
                                         if (pos.contains(" ")) {
-                                            String pos_array[] = point.getString("pos").split(" ");
+                                            String[] pos_array = point.getString("pos").split(" ");
                                             if (pos_array.length > 0) {
                                                 lat = pos_array[0];
                                                 lon = pos_array[1];
