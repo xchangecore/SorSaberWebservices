@@ -69,7 +69,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.410'
     implementation 'commons-io:commons-io:2.6'
-//    runtime 'com.h2database:h2:1.4.197'
+    implementation 'com.h2database:h2:1.4.197'
 
     implementation 'org.geotools:gt-shapefile:22+'
     //implementation 'org.geotools:gt-swing:22+'

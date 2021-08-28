@@ -56,8 +56,8 @@ public class WebserviceController {
     // Caching parameters
     // Caching parameters
     @Value("${cache_minutes}")
-    private long cache_minutes;
-    private final long CacheTimeoutSeconds = cache_minutes * 60; // minutes * 60 (convert to seconds)
+    private int cache_minutes;
+    private long CacheTimeoutSeconds; // minutes * 60 (convert to seconds)
 
     // The number of seconds to wait to update cache even if force is specified
     private final int CacheTimeoutForceSeconds = 10;
@@ -86,6 +86,14 @@ public class WebserviceController {
     @PostConstruct
     private void init() {
         logger.info("AppInitializator initialization logic ...");
+
+        CacheTimeoutSeconds = cache_minutes * 60;
+        logger.info("**********************");
+        logger.info("Cache will be refreshed every: " + cache_minutes + " minutes");
+        logger.info("Cache will be refreshed every: " + CacheTimeoutSeconds + " seconds");
+        logger.info("**********************");
+
+
 
         TimerTask reloadDataTask = new TimerTask() {
             public void run() {
