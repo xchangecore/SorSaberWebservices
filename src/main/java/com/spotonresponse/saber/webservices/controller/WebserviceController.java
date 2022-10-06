@@ -54,7 +54,6 @@ public class WebserviceController {
     public static int totalCount = 0;
 
     // Caching parameters
-    // Caching parameters
     @Value("${cache_minutes}")
     private int cache_minutes;
     private long CacheTimeoutSeconds; // minutes * 60 (convert to seconds)
@@ -165,7 +164,7 @@ public class WebserviceController {
     // Request to update icon map
     @RequestMapping(value = "/updateicons", produces = {"application/json"})
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String updateIcons(@RequestParam Map<String,String> allParams) {
+    public String updateIcons(@RequestParam Map<String, String> allParams) {
         iconService.updateIcons();
         JSONObject jo = new JSONObject();
         jo.put("status", "success");
@@ -173,10 +172,32 @@ public class WebserviceController {
     }
 
 
+    // For monitoring the service
+    @RequestMapping(value = "/alive", produces = {"application/json"})
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public String alive(@RequestParam Map<String, String> allParams) {
+        logger.info("Alive check returned response");
+        JSONObject jo = new JSONObject();
+        jo.put("status", "success");
+        return jo.toString();
+    }
+
+    // For monitoring the service
+    @RequestMapping(value = "/status", produces = {"application/json"})
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public String status(@RequestParam Map<String, String> allParams) {
+        logger.info("Status check returned response");
+        JSONObject jo = new JSONObject();
+        jo.put("status", "success");
+        jo.put("iconCount", iconmap.size());
+        jo.put("incidentSize", resultArray.length());
+        return jo.toString();
+    }
+
     // Request to update cache
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/cacheupdate", produces = {"application/json"})
-    public String updateCache(@RequestParam Map<String,String> allParams) {
+    public String updateCache(@RequestParam Map<String, String> allParams) {
 
         logger.info("Request recieved to update cache");
 
