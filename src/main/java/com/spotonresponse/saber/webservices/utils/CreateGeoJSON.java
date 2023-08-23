@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +48,9 @@ public class CreateGeoJSON {
                 String pos = point.getString("pos");
                 String[] loc = pos.split(" ");
 
+                if (loc.length < 1) {
+                    break;
+                }
 
                 // If we we not given a status, assume "Open" for the icon color
                 String useStatus = "Open";
@@ -123,6 +128,7 @@ public class CreateGeoJSON {
                 double latitude = Double.valueOf(loc[0]);
                 double longitude = Double.valueOf(loc[1]);
 
+
                 JSONArray coords = new JSONArray();
                 coords.put(longitude);
                 coords.put(latitude);
@@ -172,8 +178,13 @@ public class CreateGeoJSON {
                 featuresArray.put(feature);
 
             } catch (Exception ex) {
-                logger.warn("Unable to add item to geoJSON: " + ex);
 
+                StringWriter sw = new StringWriter();
+                ex.printStackTrace(new PrintWriter(sw));
+                String stacktrace = sw.toString();
+
+                logger.warn("Unable to add item: " + itemJson + " to geoJSON: " + ex);
+                logger.warn(stacktrace);
                 logger.error(ex.getMessage());
             }
 
