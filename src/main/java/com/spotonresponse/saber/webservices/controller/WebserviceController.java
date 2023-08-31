@@ -223,6 +223,7 @@ public class WebserviceController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> query(@RequestParam Map<String,String> allParams, HttpServletRequest request) {
 
+
         // Extract the non-filter parameters, and use default values if the parameters are not specified.
         String nocache = allParams.getOrDefault("nnocache", "");
         String updateicons = allParams.getOrDefault("updateicons", "");
@@ -232,11 +233,18 @@ public class WebserviceController {
         String bottomRight = allParams.getOrDefault("bottomRight", "");
         String fieldMap = allParams.getOrDefault("fieldMap", "");
 
+        // Log the reqest
+        StringBuilder result = new StringBuilder();
+        for (Map.Entry<String, String> entry : allParams.entrySet()) {
+            result.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+        }
+        String finalString = result.toString();
+        logger.info("Request recieved from: " + request.getRemoteAddr() + " with params: " + finalString + " - producing output");
+
         // Remove the non-filter parameters from the map, and let the rest be
         // treated as filter parameters hence-forth.
         Arrays.asList("fieldMap", "nnocache", "nocache", "updateicons", "outputFormat", "arcgis", "topLeft", "bottomRight").forEach(allParams::remove);
 
-        logger.info("Request recieved from: " + request.getRemoteAddr() + " - producing output");
 
         // Get the current time
         Instant now = Instant.now();
