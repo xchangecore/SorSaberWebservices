@@ -67,7 +67,7 @@ public class WebserviceController {
     private String output = "No Data";
 
     // This will hold the icon map across queries (like a cache) - they rarely get updated
-    public static Map<String, String> iconmap = new HashMap<String, String>();
+    private static Map<String, String> iconmap = new HashMap<String, String>();
     // The time to wait before querying for icon changes
     public long IconsTimeoutSeconds = 3600;  // 1 hour
     // The Instant the icon map was last updated
@@ -80,6 +80,10 @@ public class WebserviceController {
 
     private boolean timerstate = false;
     private Timer timer;
+
+    public static Map<String, String> getIconMap() {
+        return iconmap;
+    }
 
     // Initialize data at startup
     @PostConstruct
@@ -98,7 +102,8 @@ public class WebserviceController {
             public void run() {
                 timerstate=true;
                 getDataForCache();
-                iconService.updateIcons();
+                Map<String, String> t_iconmap = iconService.updateIcons();
+                iconmap = t_iconmap;
             }
         };
 
@@ -106,7 +111,10 @@ public class WebserviceController {
         // If this is the first run - get data
         if (!timerstate) {
             // Update the iconDatabase on the first run
-            iconService.updateIcons();
+            Map<String, String> t_iconmap = iconService.updateIcons();
+            iconmap = t_iconmap;
+
+            logger.info("Iconmap size:" +  String.valueOf(iconmap.size()));
 
             // Get data from the database
             getDataForCache();
@@ -143,7 +151,9 @@ public class WebserviceController {
             Instant finishQuery = Instant.now();
 
             logger.info("Done in " + Duration.between(DbLastQueryTime, finishQuery).getSeconds() + " seconds.");
-            resultArray = null;
+            if (resultArray != null) {
+                resultArray.clear();
+            }
             resultArray = ra;
             ra = null;
 
@@ -165,7 +175,9 @@ public class WebserviceController {
     @RequestMapping(value = "/updateicons", produces = {"application/json"})
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public String updateIcons(@RequestParam Map<String, String> allParams) {
-        iconService.updateIcons();
+        Map<String, String> t_iconmap = iconService.updateIcons();
+        iconmap = t_iconmap;
+
         JSONObject jo = new JSONObject();
         jo.put("status", "success");
         return jo.toString();
@@ -367,6 +379,7 @@ public class WebserviceController {
                     perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
                     jo.put("Statistics", perf);
                     output = jo.toString();
+                    jo.clear();
                     break;
                 case "brandonly":
                     jsonStart = Instant.now();
@@ -377,6 +390,7 @@ public class WebserviceController {
                     perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
                     jo.put("Statistics", perf);
                     output = jo.toString();
+                    jo.clear();
                     break;
                 case "sor":
                     jsonStart = Instant.now();
@@ -387,6 +401,7 @@ public class WebserviceController {
                     perf.put("JSON Create Time", Duration.between(jsonStart, jsonEnd));
                     jo.put("Statistics", perf);
                     output = jo.toString();
+                    jo.clear();
                     break;
                 case "geojson":
                 case "kml":
@@ -411,6 +426,7 @@ public class WebserviceController {
                     if(outputFormat.equals("kml")){
                         output = CreateKML.build(output, kmlServiceUrl);
                     }
+                    jo.clear();
                     break;
                 case "html":
                     // do field mapping before rendering in HTML
@@ -433,6 +449,7 @@ public class WebserviceController {
         } else if(outputFormat.equals("kml") || outputFormat.equals("xml")){
             contentType = "text/xml";
         }
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", contentType);

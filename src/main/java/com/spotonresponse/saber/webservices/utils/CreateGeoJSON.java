@@ -1,17 +1,11 @@
 package com.spotonresponse.saber.webservices.utils;
-
-
-import com.google.cloud.datastore.*;
 import com.spotonresponse.saber.webservices.controller.WebserviceController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 
@@ -35,6 +29,7 @@ public class CreateGeoJSON {
     public static JSONObject build(JSONArray jArray, boolean fulloutput) {
 
         JSONArray featuresArray = new JSONArray();
+
         int items = jArray.length();
 
         for (int i = 0; i < jArray.length(); i++) {
@@ -49,7 +44,7 @@ public class CreateGeoJSON {
                 String[] loc = pos.split(" ");
 
                 if (loc.length < 1) {
-                    logger.error("No location - disrgard entry: " + itemJson);
+                    logger.error("No location - disrgard entry: {}", itemJson);
 
                 } else {
 
@@ -121,7 +116,7 @@ public class CreateGeoJSON {
                             iconquery.add(fielddata);
                         }
 
-                        icon = SorTools.determineIcon(useStatus, iconquery, WebserviceController.iconmap);
+                        icon = SorTools.determineIcon(useStatus, iconquery, WebserviceController.getIconMap());
                     }
                     itemJson.put("icon", icon);
 
@@ -185,7 +180,7 @@ public class CreateGeoJSON {
                 ex.printStackTrace(new PrintWriter(sw));
                 String stacktrace = sw.toString();
 
-                logger.warn("Unable to add item: " + itemJson + " to geoJSON: " + ex);
+                logger.warn("Unable to add item: {} to geoJSON {}",itemJson, ex);
                 logger.warn(stacktrace);
                 logger.error(ex.getMessage());
             }

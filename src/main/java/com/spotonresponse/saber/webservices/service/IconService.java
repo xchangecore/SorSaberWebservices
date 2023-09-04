@@ -7,6 +7,7 @@ import com.spotonresponse.saber.webservices.controller.WebserviceController;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import static java.time.Instant.*;
 
@@ -15,17 +16,15 @@ import static java.time.Instant.*;
 public class IconService {
     private static final Logger logger = Logger.getLogger(IconService.class.getName());
 
-    public void updateIcons() {
+    public Map<String, String> updateIcons() {
 
         logger.info("Update icons called");
         // Only do this if the timeout for updating has expired
         // We are doing this to prevent DOS type attacks agains this service
             logger.info("Will update icons");
-            WebserviceController.IconsLastQueryTime = now();
 
-            // Add icons from Google DataStore
-            WebserviceController.iconmap = new HashMap<String, String>();
 
+            Map<String, String> _iconmap = new HashMap<String, String>();
             Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
             Query<Entity> query = Query.newEntityQueryBuilder()
                     .setKind("icons")
@@ -34,8 +33,16 @@ public class IconService {
             logger.info("Fetching icon database");
             while (results.hasNext()) {
                 Entity entity = results.next();
-                WebserviceController.iconmap.put(entity.getString("name"), entity.getString("icon"));
+                _iconmap.put(entity.getString("name"), entity.getString("icon"));
             }
+
+        WebserviceController.IconsLastQueryTime = now();
+
+        // Add icons from Google DataStore
+        //WebserviceController.iconmap.clear();
+        //WebserviceController.iconmap = _iconmap;
+
+        return _iconmap;
     }
 };
 

@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06976889-47a6-406f-8092-90adb158480f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SorSaberWebServices.iws" beforeDir="false" afterPath="$PROJECT_DIR$/SorSaberWebServices.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/controller/WebserviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/controller/WebserviceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/service/IconService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/service/IconService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/utils/CreateGeoJSON.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spotonresponse/saber/webservices/utils/CreateGeoJSON.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +155,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.google.cloudcode.ide_session_index" value="20230831_0000" />
+    <property name="com.google.cloudcode.ide_session_index" value="20230901_0004" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -176,7 +171,7 @@
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
-  <component name="RunManager" selected="Gradle.SorSaberWebservices [bootJar] (2)">
+  <component name="RunManager" selected="Gradle.SorSaberWebservices [bootJar] (3)">
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -204,27 +199,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SorSaberWebServices [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="bootJar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="SorSaberWebservices [bootJar] (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -247,6 +221,27 @@
       <method v="2" />
     </configuration>
     <configuration name="SorSaberWebservices [bootJar] (2)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SorSaberWebservices [bootJar] (3)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -341,11 +336,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.SorSaberWebservices [bootJar] (3)" />
         <item itemvalue="Gradle.SorSaberWebservices [bootJar] (2)" />
         <item itemvalue="Gradle.SorSaberWebservices [bootJar] (1)" />
         <item itemvalue="Gradle.SorSaberWebservices [bootJar]" />
         <item itemvalue="Gradle.SorSaberWebservices [bootRun]" />
-        <item itemvalue="Gradle.SorSaberWebServices [bootJar]" />
       </list>
     </recent_temporary>
   </component>
@@ -375,7 +370,8 @@
       <workItem from="1677805322386" duration="829000" />
       <workItem from="1692797504821" duration="2388000" />
       <workItem from="1692881317274" duration="2443000" />
-      <workItem from="1693498053955" duration="1287000" />
+      <workItem from="1693498053955" duration="2203000" />
+      <workItem from="1693573983340" duration="4724000" />
     </task>
     <task id="LOCAL-00001" summary="Fix Gradle Version, add status and alive endpoints">
       <created>1665065867884</created>

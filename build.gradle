@@ -9,7 +9,7 @@ apply plugin: 'idea'
 
 
 group = 'com.spotonresponse.saber'
-version = '1.11.3'
+version = '1.11.4'
 sourceCompatibility = '1.8'
 
 repositories {
